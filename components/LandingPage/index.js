@@ -6,7 +6,8 @@ const LandingPageContainer = styled.div`
     .justify-center;
     .items-center;
     .flex-col;
-    .p-4;
+    .p-8;
+    .lg:px-32;
     .pt-12;
 `;
 
@@ -42,7 +43,6 @@ const KnowMore = styled(BasicButton)`
     .text-black;
     .bg-white;
     .border-1;
-    
 `
 
 const LandingPage = ({clientId, redirectURI}) => {

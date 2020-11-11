@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import {
   Header,
   LogoContainer,
@@ -5,11 +6,19 @@ import {
   Logo,
   LayoutContainer,
   Upgrade,
-  Signin
+  Signin,
+  Logout
 } from "./Layout.styles";
 
 const Layout = ({ children, clientId, redirectURI }) => {
-const ghURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirectURI=${redirectURI}`;
+  const router = useRouter();
+
+  const logout = () => {
+    localStorage.removeItem("oss_puppy_jwt");
+    router.push("/");
+  };
+
+  const ghURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirectURI=${redirectURI}`;
   return (
     <>
       <Header>
@@ -18,7 +27,10 @@ const ghURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&re
         </LogoContainer>
         <MenuItems>
           <Upgrade>Upgrade</Upgrade>
-          <Signin onClick={() => window.location = ghURL}>Sign in with Github</Signin>
+          <Signin onClick={() => (window.location = ghURL)}>
+            Sign in with Github
+          </Signin>
+          <Logout onClick={logout}>Logout</Logout>
         </MenuItems>
       </Header>
       <LayoutContainer>{children}</LayoutContainer>

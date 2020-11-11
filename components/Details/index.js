@@ -8,6 +8,7 @@ const DetailsContainer = styled.div`
   .flex-col;
   .my-16;
   .p-8;
+  .lg:px-32;
   background: #f9f9f9;
 `;
 const Description = styled.p`

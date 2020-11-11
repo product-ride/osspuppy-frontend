@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const LayoutContainer = styled.div`
-  .px-4;
-  .lg: px-32;
   .max-h-full;
   height: 100vh;
 `;
@@ -20,7 +18,7 @@ export const Header = styled.div`
   .text-gray-900;
   .text-sm;
   .bg-white;
-  // box-shadow: 0px -1px 0px 0px inset rgba(0,0,0,0.1);
+  box-shadow: 0px -1px 0px 0px inset rgba(0,0,0,0.1);
 `;
 
 export const Logo = styled.img`
@@ -55,3 +53,10 @@ export const Upgrade = styled(BasicButton)`
 export const Signin = styled(BasicButton)`
   background: #1b232f;
 `;
+
+export const Logout = styled(BasicButton)`
+    .bg-white;
+    .text-black;
+    .border-2;
+    .border-black;
+`
