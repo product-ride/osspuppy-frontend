@@ -32,7 +32,6 @@ const AddButton = styled(BasicButton)`
   background: #1ca4e3;
 `;
 
-
 const TierItem = styled.div`
   .p-4;
   .mb-4;
@@ -48,14 +47,14 @@ const RepoName = styled.div`
   .mt-4;
 `;
 
-const TierRepoTitle = styled.u``
+const TierRepoTitle = styled.u``;
 const TierRepoLinks = styled.li`
-    .mt-2;
-`
+  .mt-2;
+`;
 
 const TierLabel = styled.div``;
 const TierRole = styled.div`
-.mt-4;
+  .mt-4;
 `;
 
 const TierDesc = styled.div`
@@ -90,11 +89,26 @@ const TierDetails = () => {
             <RepoName>styled-wind</RepoName>
             <TierRole>Role: Admin</TierRole>
           </TierRow>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
         </TierItem>
         <TierItem>
           <TierRow>
@@ -110,18 +124,50 @@ const TierDetails = () => {
             <RepoName>styled-wind</RepoName>
             <TierRole>Role: Admin</TierRole>
           </TierRow>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
           <TierRow>
             <RepoName>styled-wind</RepoName>
             <TierRole>Role: Admin</TierRole>
           </TierRow>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
+          <TierRepoLinks>
+            <a href="https://github.com/product-ride" target="_blank">
+              https://github.com/product-ride
+            </a>
+          </TierRepoLinks>
         </TierItem>
       </TierList>
     </TierContainer>
