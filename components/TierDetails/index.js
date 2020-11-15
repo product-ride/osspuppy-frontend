@@ -1,4 +1,6 @@
+import {useState} from 'react';
 import styled from "styled-components";
+import AddTierModal from '../AddTierModal/index';
 import { BasicButton } from "../Layout/Layout.styles";
 
 const TierContainer = styled.div`
@@ -69,12 +71,17 @@ const TierRow = styled.div`
 `;
 
 const TierDetails = () => {
+  const [openAddTierModal, setAddTierModal] = useState(false);
+  const ToogleAddTier = () =>{
+    setAddTierModal(!openAddTierModal);
+  }
   return (
     <TierContainer>
       <TierList>
         <TitleContainer>
           <Title>Tier Details</Title>
-          <AddButton>Add Tier</AddButton>
+          <AddButton onClick={()=>ToogleAddTier()}>Add Tier</AddButton>
+          {openAddTierModal && <AddTierModal closeModal={ToogleAddTier}/>}
         </TitleContainer>
         <TierItem>
           <TierRow>
