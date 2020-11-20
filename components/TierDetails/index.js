@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import styled from "styled-components";
 import AddTierModal from '../AddTierModal/index';
+import CollapsibleList from '../CollapsibleList';
 import { BasicButton } from "../Layout/Layout.styles";
 
 const TierContainer = styled.div`
@@ -69,6 +70,12 @@ const TierRow = styled.div`
   .justify-between;
   .items-center;
 `;
+const ListItem = styled.div`
+.h-10;
+.bg-gray-400;
+.p-2;
+.my-3;
+`
 
 const TierDetails = () => {
   const [openAddTierModal, setAddTierModal] = useState(false);
@@ -125,6 +132,13 @@ const TierDetails = () => {
             <RepoName>styled-wind</RepoName>
             <TierRole>Role: Admin</TierRole>
           </TierRow>
+          <CollapsibleList title="https://github.com/product-ride" content="This is my content. Loren Ipsum"/>
+          <CollapsibleList title="https://github.com/product-ride" content="This is my content"/>
+          <CollapsibleList title="https://github.com/product-ride" content="This is my content"/>
+          <CollapsibleList title="https://github.com/product-ride" content="This is my content"/>
+          <CollapsibleList title="https://github.com/product-ride" content="This is my content"/>
+          <CollapsibleList title="https://github.com/product-ride" content="This is my content"/>
+          <ListItem><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></ListItem>
           <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
           <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
           <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
