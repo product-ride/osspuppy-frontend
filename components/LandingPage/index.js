@@ -46,7 +46,8 @@ const KnowMore = styled(BasicButton)`
 `
 
 const LandingPage = ({clientId, redirectURI}) => {
-const ghURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirectURI=${redirectURI}`;
+const scope = ['repo', 'read:name'].join(',');
+const ghURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirectURI=${redirectURI}&scope=${scope}`;
   return (
     <LandingPageContainer>
       <Image src="/oss_puppy.svg" alt="OSS Puppy" />
