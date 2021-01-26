@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { isUserLoggedIn, logout } from '../../utils';
 import {
   Header,
   LogoContainer,
@@ -12,9 +13,11 @@ import {
 
 const Layout = ({ children, clientId, redirectURI }) => {
   const router = useRouter();
+  const isLoggedIn = isUserLoggedIn();
 
-  const logout = () => {
-    localStorage.removeItem("oss_puppy_jwt");
+  const logoutUser = () => {
+    logout();
+
     router.push("/");
   };
 
@@ -27,10 +30,18 @@ const Layout = ({ children, clientId, redirectURI }) => {
         </LogoContainer>
         <MenuItems>
           <Upgrade>Upgrade</Upgrade>
-          <Signin onClick={() => (window.location = ghURL)}>
-            Sign in with Github
-          </Signin>
-          <Logout onClick={logout}>Logout</Logout>
+          {
+            !isLoggedIn && (
+              <Signin onClick={() => (window.location = ghURL)}>
+                Sign in with Github
+              </Signin>
+            )
+          }
+         {
+           isLoggedIn && (
+            <Logout onClick={logoutUser}>Logout</Logout>
+           )
+         }
         </MenuItems>
       </Header>
       <LayoutContainer>{children}</LayoutContainer>

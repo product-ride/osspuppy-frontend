@@ -19,6 +19,7 @@ export const Header = styled.div`
   .text-sm;
   .bg-white;
   box-shadow: 0px -1px 0px 0px inset rgba(0,0,0,0.1);
+  z-index: 9999;
 `;
 
 export const Logo = styled.img`
@@ -50,13 +51,14 @@ export const BasicButton = styled.button`
 export const Upgrade = styled(BasicButton)`
   background: #ff0080;
 `;
+
 export const Signin = styled(BasicButton)`
   background: #1b232f;
 `;
 
 export const Logout = styled(BasicButton)`
-    .bg-white;
-    .text-black;
-    .border-2;
-    .border-black;
+  .bg-white;
+  .text-black;
+  .border-2;
+  .border-black;
 `

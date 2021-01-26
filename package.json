@@ -11,6 +11,7 @@
     "babel-plugin-styled-wind": "^0.0.3"
   },
   "dependencies": {
+    "jwt-decode": "^3.1.2",
     "next": "10.0.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",

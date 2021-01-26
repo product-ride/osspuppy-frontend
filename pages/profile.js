@@ -4,10 +4,10 @@ import TierDetails from "../components/TierDetails";
 
 const ProfileContainer = styled.div``;
 
-export default function Profile() {
+export default function Profile({ backendHost }) {
   return (
     <ProfileContainer>
-      <ProfileDetails />
+      <ProfileDetails backendHost={backendHost} />
       <TierDetails />
     </ProfileContainer>
   );
@@ -16,8 +16,7 @@ export default function Profile() {
 export function getStaticProps() {
   return {
     props: {
-      clientId: process.env.GH_CLIENT_ID,
-      redirectURI: process.env.GH_REDIRECT_URL
+      backendHost: process.env.BACKEND_HOST
     }
   };
 }
