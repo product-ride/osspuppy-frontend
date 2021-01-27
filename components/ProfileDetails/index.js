@@ -12,12 +12,15 @@ const ProfileDetailsContainer = styled.div`
 `;
 
 const Secret = styled.div`
-  .px-4;
-  .lg: px-32;
-  .mt-4;
   .flex;
+  .pr-5;
   .items-center;
-  .justify-start;
+`;
+
+const SecretsContainer = styled.div`
+  .flex;
+  .mt-4;
+  .lg: px-32;
 `;
 
 const ProfileImage = styled.div`
@@ -74,10 +77,16 @@ const ProfileDetails = ({ backendHost }) => {
             </BioItemsContainer>
           </ProfileBio>
         </ProfileDetailsContainer>
-        <Secret>
-          <Title>Sponsor Webhook Endpoint:</Title>
-          {`https://${backendHost}/webhooks/sponsor/${user.sponsorWebhookSecret}`}
-        </Secret>
+        <SecretsContainer>
+          <Secret>
+            <Title>Webhook Endpoint:</Title>
+            {`https://${backendHost}/webhooks/sponsor`}
+          </Secret>
+          <Secret>
+            <Title>Webhook Secret:</Title>
+            {user.sponsorWebhookSecret}
+          </Secret>
+        </SecretsContainer>
       </>
     )
   );
