@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { useAuth } from '../../hooks/auth/auth';
+import { FaClipboard } from 'react-icons/fa';
+import Clipboard from 'react-clipboard.js';
+import { useToasts } from 'react-toast-notifications';
 
 const ProfileDetailsContainer = styled.div`
   .px-4;
@@ -53,10 +56,33 @@ const Title = styled.h3`
   .text-xl;
   .my-0;
   .mr-4;
+  user-select: none;
 `;
+
+const ClipboardContainer = styled.div`
+  & > button {
+    border: 0;
+    background: transparent;
+    outline: none;
+    .hover:text-gray-700;
+    .active:text-gray-800;
+    cursor: pointer;
+  }
+`;
+
+const ClipboardBtn = ({ text, onSuccess }) => {
+  return (
+    <ClipboardContainer>
+      <Clipboard data-clipboard-text={text} onSuccess={onSuccess}>
+        <FaClipboard />
+      </Clipboard>
+    </ClipboardContainer>
+  )
+}
 
 const ProfileDetails = ({ backendHost }) => {
   const { user } = useAuth();
+  const { addToast } = useToasts();
   
   return (
     user && (
@@ -81,10 +107,22 @@ const ProfileDetails = ({ backendHost }) => {
           <Secret>
             <Title>Webhook Endpoint:</Title>
             {`https://${backendHost}/webhooks/sponsor`}
+            <ClipboardBtn text={`https://${backendHost}/webhooks/sponsor`} onSuccess={() => {
+               addToast('Copied endpoint to clipboard', {
+                appearance: 'success',
+                autoDismiss: true
+              });
+            }} />
           </Secret>
           <Secret>
             <Title>Webhook Secret:</Title>
             {user.sponsorWebhookSecret}
+            <ClipboardBtn text={user.sponsorWebhookSecret} onSuccess={() => {
+               addToast('Copied secret to clipboard', {
+                appearance: 'success',
+                autoDismiss: true
+              });
+            }} />
           </Secret>
         </SecretsContainer>
       </>
