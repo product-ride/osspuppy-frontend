@@ -21,8 +21,8 @@ const Layout = ({ children, clientId, backendHost }) => {
     router.push("/");
   };
   const redirectURI = `https://${backendHost}/auth/github`;
-
   const ghURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirectURI=${redirectURI}`;
+  
   return (
     <>
       <Header>
