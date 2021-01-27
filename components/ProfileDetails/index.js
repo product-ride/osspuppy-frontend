@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getLoggedInUser } from '../../utils';
+import { useAuth } from '../../hooks/auth/auth';
 
 const ProfileDetailsContainer = styled.div`
   .px-4;
@@ -53,32 +53,34 @@ const Title = styled.h3`
 `;
 
 const ProfileDetails = ({ backendHost }) => {
-  const user = getLoggedInUser();
+  const { user } = useAuth();
   const sponsorEndpoint = `https://${backendHost}/webhooks/sponsor`;
   
   return (
-    <>
-      <ProfileDetailsContainer>
-        <ProfileImage>
-          <img
-            src={user.avatar}
-            alt="Profile Image"
-          />
-        </ProfileImage>
-        <ProfileBio>
-          <Title>{user.name}</Title>
-          Your GitHub Sponsors profile was approved and is now public! Now
-          others can sponsor you from your user profile and user hovercard.
-          <BioItemsContainer>
-            <BioItems>{user.email}</BioItems>
-          </BioItemsContainer>
-        </ProfileBio>
-      </ProfileDetailsContainer>
-      <Secret>
-        <Title>Sponsor Webhook Endpoint:</Title>
-        {sponsorEndpoint}
-      </Secret>
-    </>
+    user && (
+      <>
+        <ProfileDetailsContainer>
+          <ProfileImage>
+            <img
+              src={user.avatar}
+              alt="Profile Image"
+            />
+          </ProfileImage>
+          <ProfileBio>
+            <Title>{user.name}</Title>
+            Your GitHub Sponsors profile was approved and is now public! Now
+            others can sponsor you from your user profile and user hovercard.
+            <BioItemsContainer>
+              <BioItems>{user.email}</BioItems>
+            </BioItemsContainer>
+          </ProfileBio>
+        </ProfileDetailsContainer>
+        <Secret>
+          <Title>Sponsor Webhook Endpoint:</Title>
+          {sponsorEndpoint}
+        </Secret>
+      </>
+    )
   );
 };
 

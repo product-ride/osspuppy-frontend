@@ -3,6 +3,7 @@
         "next/babel"
     ],
     "plugins": [
-        "babel-plugin-styled-wind"
+        "babel-plugin-styled-wind",
+        "babel-plugin-styled-components"
     ]
 }

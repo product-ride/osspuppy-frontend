@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { isUserLoggedIn, logout } from '../../utils';
 import {
   Header,
   LogoContainer,
@@ -10,10 +9,11 @@ import {
   Signin,
   Logout
 } from "./Layout.styles";
+import { useAuth } from '../../hooks/auth/auth';
 
 const Layout = ({ children, clientId, redirectURI }) => {
   const router = useRouter();
-  const isLoggedIn = isUserLoggedIn();
+  const { isLoggedIn, logout } = useAuth();
 
   const logoutUser = () => {
     logout();

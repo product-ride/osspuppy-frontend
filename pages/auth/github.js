@@ -1,21 +1,18 @@
 import { useRouter } from "next/router";
+import { useEffect } from 'react';
+import { useAuth } from '../../hooks/auth/auth';
 
 export default function GitHubRedirect() {
   const router = useRouter();
+  const { setToken } = useAuth();
 
-  if (router.query.token) {
-    localStorage.setItem("oss_puppy_jwt", router.query.token);
-    router.push("/profile");
-  }
-
-  return <span>Redirecting...</span>;
-}
-
-export function getStaticProps() {
-  return {
-    props: {
-      clientId: process.env.GH_CLIENT_ID,
-      redirectURI: process.env.GH_REDIRECT_URL
+  useEffect(() => {
+    if (router.query.token) {
+      setToken(router.query.token);
+      
+      router.push("/profile");
     }
-  };
+  }, [router]);
+
+  return <></>;
 }
