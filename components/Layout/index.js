@@ -11,7 +11,7 @@ import {
 } from "./Layout.styles";
 import { useAuth } from '../../hooks/auth/auth';
 
-const Layout = ({ children, clientId, backendHost }) => {
+const Layout = ({ children }) => {
   const router = useRouter();
   const { isLoggedIn, logout } = useAuth();
   const isServer = typeof window === "undefined";
@@ -20,8 +20,8 @@ const Layout = ({ children, clientId, backendHost }) => {
 
     router.push("/");
   };
-  const redirectURI = `https://${backendHost}/auth/github`;
-  const ghURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirectURI=${redirectURI}`;
+  const redirectURI = `https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/auth/github`;
+  const ghURL = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GH_CLIENT_ID}&redirectURI=${redirectURI}`;
   
   return (
     <>

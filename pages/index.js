@@ -2,23 +2,14 @@ import LandingPage from "../components/LandingPage";
 import Details from "../components/Details";
 import Footer from "../components/Footer";
 
-export default function Home({clientId, backendHost}) {
-  const redirectURI = `https://${backendHost}/auth/github`;
+export default function Home() {
+  const redirectURI = `https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/auth/github`;
   
   return (
     <div>
-      <LandingPage clientId={clientId} redirectURI={redirectURI}/>
+      <LandingPage clientId={process.env.NEXT_PUBLIC_GH_CLIENT_ID} redirectURI={redirectURI}/>
       <Details />
       <Footer />
     </div>
   )
-}
-
-export function getStaticProps() {
-  return {
-    props: {
-      clientId: process.env.GH_CLIENT_ID,
-      backendHost: process.env.BACKEND_HOST
-    }
-  }
 }

@@ -7,7 +7,7 @@ import { useAuth } from '../hooks/auth/auth';
 
 const ProfileContainer = styled.div``;
 
-export default function Profile({ backendHost }) {
+export default function Profile() {
   const router = useRouter();
   const { isLoggedIn } = useAuth();
  
@@ -19,16 +19,8 @@ export default function Profile({ backendHost }) {
 
   return isLoggedIn && (
     <ProfileContainer>
-      <ProfileDetails backendHost={backendHost} />
+      <ProfileDetails />
       <TierDetails />
     </ProfileContainer>
   );
-}
-
-export function getStaticProps() {
-  return {
-    props: {
-      backendHost: process.env.BACKEND_HOST
-    }
-  };
 }
