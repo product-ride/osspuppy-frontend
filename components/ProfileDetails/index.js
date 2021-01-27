@@ -17,7 +17,7 @@ const Secret = styled.div`
   .mt-4;
   .flex;
   .items-center;
-  .justify-end;
+  .justify-start;
 `;
 
 const ProfileImage = styled.div`
@@ -47,14 +47,13 @@ const BioItemsContainer = styled.div`
 `;
 
 const Title = styled.h3`
-  .text-2xl;
+  .text-xl;
   .my-0;
   .mr-4;
 `;
 
 const ProfileDetails = ({ backendHost }) => {
   const { user } = useAuth();
-  const sponsorEndpoint = `https://${backendHost}/webhooks/sponsor`;
   
   return (
     user && (
@@ -77,7 +76,7 @@ const ProfileDetails = ({ backendHost }) => {
         </ProfileDetailsContainer>
         <Secret>
           <Title>Sponsor Webhook Endpoint:</Title>
-          {sponsorEndpoint}
+          {`https://${backendHost}/webhooks/sponsor/${user.sponsorWebhookSecret}`}
         </Secret>
       </>
     )
