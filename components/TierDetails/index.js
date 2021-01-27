@@ -1,5 +1,7 @@
-import {useState} from 'react';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 import styled from "styled-components";
+import { fetchTiers } from '../../api';
 import AddTierModal from '../AddTierModal/index';
 import CollapsibleList from '../CollapsibleList';
 import { BasicButton } from "../Layout/Layout.styles";
@@ -20,9 +22,9 @@ const TierList = styled.div`
 `;
 
 const TitleContainer = styled.div`
-    .flex;
-    .justify-between;
-    items-center;
+  .flex;
+  .justify-between;
+  items-center;
 `;
 
 const Title = styled.h3`
@@ -45,20 +47,9 @@ const TierTitle = styled.div`
   font-weight: 700;
 `;
 
-const RepoName = styled.div`
-  font-weight: 700;
-  .mt-4;
-`;
-
 const TierRepoTitle = styled.u``;
-const TierRepoLinks = styled.li`
-  .mt-2;
-`;
 
 const TierLabel = styled.div``;
-const TierRole = styled.div`
-  .mt-4;
-`;
 
 const TierDesc = styled.div`
   width: 80%;
@@ -70,10 +61,10 @@ const TierRow = styled.div`
   .items-center;
 `;
 const ListItem = styled.div`
-.h-10;
-.bg-gray-400;
-.p-2;
-.my-3;
+  .h-10;
+  .bg-gray-400;
+  .p-2;
+  .my-3;
 `
 
 const TierDetails = () => {
@@ -81,6 +72,8 @@ const TierDetails = () => {
   const ToogleAddTier = () =>{
     setAddTierModal(!openAddTierModal);
   }
+  const { data, isLoading, error } = useQuery('tiers', fetchTiers);
+
   return (
     <TierContainer>
       <TierList>
@@ -89,91 +82,29 @@ const TierDetails = () => {
           <AddButton onClick={()=>ToogleAddTier()}>Add Tier</AddButton>
           {openAddTierModal && <AddTierModal closeModal={ToogleAddTier}/>}
         </TitleContainer>
-        <TierItem>
-          <TierRow>
-            <TierTitle>5$ a month</TierTitle>
-            <TierLabel>Label of Tier</TierLabel>
-            <AddButton>Edit Tier</AddButton>
-          </TierRow>
-          <TierDesc>
-            This is the minimal amount to sponser to give me some provision
-          </TierDesc>
-          <TierRepoTitle>List of Repos and details:</TierRepoTitle>
-          <TierRow>
-            <RepoName>styled-wind</RepoName>
-            <TierRole>Role: Admin</TierRole>
-          </TierRow>
-          <TierRepoLinks>
-            <a href="https://github.com/product-ride" target="_blank">
-              https://github.com/product-ride
-            </a>
-          </TierRepoLinks>
-          <TierRepoLinks>
-            <a href="https://github.com/product-ride" target="_blank">
-              https://github.com/product-ride
-            </a>
-          </TierRepoLinks>
-          <TierRepoLinks>
-            <a href="https://github.com/product-ride" target="_blank">
-              https://github.com/product-ride
-            </a>
-          </TierRepoLinks>
-          <TierRepoLinks>
-            <a href="https://github.com/product-ride" target="_blank">
-              https://github.com/product-ride
-            </a>
-          </TierRepoLinks>
-        </TierItem>
-        <TierItem>
-          <TierRow>
-            <TierTitle>5$ a month</TierTitle>
-            <TierLabel>Label of Tier</TierLabel>
-            <AddButton>Edit Tier</AddButton>
-          </TierRow>
-          <TierDesc>
-            This is the minimal amount to sponser to give me some provision
-          </TierDesc>
-          <TierRepoTitle>List of Repos and details:</TierRepoTitle>
-          <TierRow>
-            <RepoName>styled-wind</RepoName>
-            <TierRole>Role: Admin</TierRole>
-          </TierRow>
-          <TierRepoLinks>
-            <a href="https://github.com/product-ride" target="_blank">
-              https://github.com/product-ride
-            </a>
-          </TierRepoLinks>
-          <TierRepoLinks>
-            <a href="https://github.com/product-ride" target="_blank">
-              https://github.com/product-ride
-            </a>
-          </TierRepoLinks>
-          <TierRepoLinks>
-            <a href="https://github.com/product-ride" target="_blank">
-              https://github.com/product-ride
-            </a>
-          </TierRepoLinks>
-          <TierRepoLinks>
-            <a href="https://github.com/product-ride" target="_blank">
-              https://github.com/product-ride
-            </a>
-          </TierRepoLinks>
-          <TierRow>
-            <RepoName>styled-wind</RepoName>
-            <TierRole>Role: Admin</TierRole>
-          </TierRow>
-          <CollapsibleList title="https://github.com/product-ride" content="This is my content. Loren Ipsum"/>
-          <CollapsibleList title="https://github.com/product-ride" content="This is my content"/>
-          <CollapsibleList title="https://github.com/product-ride" content="This is my content"/>
-          <CollapsibleList title="https://github.com/product-ride" content="This is my content"/>
-          <CollapsibleList title="https://github.com/product-ride" content="This is my content"/>
-          <CollapsibleList title="https://github.com/product-ride" content="This is my content"/>
-          <ListItem><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></ListItem>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-          <TierRepoLinks><a href="https://github.com/product-ride" target="_blank">https://github.com/product-ride</a></TierRepoLinks>
-        </TierItem>
+        {isLoading && <div>Loading...</div>}
+        {
+          !isLoading && !error && (
+            data.tiers.map(tier => (
+              <TierItem>
+                <TierRow>
+                  <TierTitle>{tier.minAmount}$ a month</TierTitle>
+                  <TierLabel>{tier.title}</TierLabel>
+                  <AddButton>Edit Tier</AddButton>
+                </TierRow>
+                <TierDesc>
+                  {tier.description}
+                </TierDesc>
+                <TierRepoTitle>List of Repos and details:</TierRepoTitle>
+                {
+                  tier.repositories.map(repo => (
+                    <CollapsibleList title={repo.name} content="This is my content"/>
+                  ))
+                }
+              </TierItem>
+            ))
+          )
+        }
       </TierList>
     </TierContainer>
   );

@@ -4,37 +4,12 @@ import {
   useEffect,
   useCallback,
 } from 'react';
-import jwtDecode from "jwt-decode";
-
-const TOKEN_KEY = 'oss_puppy_jwt';
-
-function isUserLoggedIn() {
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem(TOKEN_KEY);
-
-    return token && token.length > 0;
-  } else {
-    return false;
-  }
-}
-
-function logoutUser() {
-  localStorage.removeItem(TOKEN_KEY);
-}
-
-function getLoggedInUser() {
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem(TOKEN_KEY);
-
-    return jwtDecode(token);
-  } else {
-    return {};
-  }
-}
-
-function setJwtToken(token) {
-  localStorage.setItem(TOKEN_KEY, token);
-}
+import {
+  isUserLoggedIn,
+  getLoggedInUser,
+  logoutUser,
+  setJwtToken
+} from '../../utils';
 
 export const authContext = createContext(null);
 
