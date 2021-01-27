@@ -2,7 +2,9 @@ import LandingPage from "../components/LandingPage";
 import Details from "../components/Details";
 import Footer from "../components/Footer";
 
-export default function Home({clientId, redirectURI}) {
+export default function Home({clientId, backendHost}) {
+  const redirectURI = `https://${backendHost}/auth/github`;
+  
   return (
     <div>
       <LandingPage clientId={clientId} redirectURI={redirectURI}/>
@@ -16,7 +18,7 @@ export function getStaticProps() {
   return {
     props: {
       clientId: process.env.GH_CLIENT_ID,
-      redirectURI: process.env.GH_REDIRECT_URL
+      backendHost: process.env.BACKEND_HOST
     }
   }
 }
