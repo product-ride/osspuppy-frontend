@@ -109,7 +109,7 @@ const ProfileDetails = ({ backendHost }) => {
             {`https://${backendHost}/webhooks/sponsor`}
             <ClipboardBtn text={`https://${backendHost}/webhooks/sponsor`} onSuccess={() => {
                addToast('Copied endpoint to clipboard', {
-                appearance: 'success',
+                appearance: 'info',
                 autoDismiss: true
               });
             }} />
@@ -119,7 +119,7 @@ const ProfileDetails = ({ backendHost }) => {
             {user.sponsorWebhookSecret}
             <ClipboardBtn text={user.sponsorWebhookSecret} onSuccess={() => {
                addToast('Copied secret to clipboard', {
-                appearance: 'success',
+                appearance: 'info',
                 autoDismiss: true
               });
             }} />

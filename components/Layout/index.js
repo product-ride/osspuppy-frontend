@@ -11,15 +11,16 @@ import {
 } from "./Layout.styles";
 import { useAuth } from '../../hooks/auth/auth';
 
-const Layout = ({ children, clientId, redirectURI }) => {
+const Layout = ({ children, clientId, backendHost }) => {
   const router = useRouter();
   const { isLoggedIn, logout } = useAuth();
-
+  const isServer = typeof window === "undefined";
   const logoutUser = () => {
     logout();
 
     router.push("/");
   };
+  const redirectURI = `https://${backendHost}/auth/github`;
 
   const ghURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirectURI=${redirectURI}`;
   return (
@@ -31,17 +32,17 @@ const Layout = ({ children, clientId, redirectURI }) => {
         <MenuItems>
           <Upgrade>Upgrade</Upgrade>
           {
-            !isLoggedIn && (
+            !isServer && !isLoggedIn && (
               <Signin onClick={() => (window.location = ghURL)}>
                 Sign in with Github
               </Signin>
             )
           }
-         {
-           isLoggedIn && (
-            <Logout onClick={logoutUser}>Logout</Logout>
-           )
-         }
+          {
+            !isServer && isLoggedIn && (
+              <Logout onClick={logoutUser}>Logout</Logout>
+            )
+          }
         </MenuItems>
       </Header>
       <LayoutContainer>{children}</LayoutContainer>

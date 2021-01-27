@@ -41,7 +41,7 @@ export const authContext = createContext(null);
 export default function AuthProvider({
   children,
 }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(isUserLoggedIn());
   const [user, setUser] = useState(null);
   const logout = useCallback(() => {
     logoutUser();
