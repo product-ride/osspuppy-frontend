@@ -10,6 +10,7 @@ import {
   Logout
 } from "./Layout.styles";
 import { useAuth } from '../../hooks/auth/auth';
+import { getGHRedirectUrl } from '../../utils';
 
 const Layout = ({ children }) => {
   const router = useRouter();
@@ -20,8 +21,6 @@ const Layout = ({ children }) => {
 
     router.push("/");
   };
-  const redirectURI = `https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/auth/github`;
-  const ghURL = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GH_CLIENT_ID}&redirectURI=${redirectURI}`;
   
   return (
     <>
@@ -33,7 +32,7 @@ const Layout = ({ children }) => {
           <Upgrade>Upgrade</Upgrade>
           {
             !isServer && !isLoggedIn && (
-              <Signin onClick={() => (window.location = ghURL)}>
+              <Signin onClick={() => (window.location = getGHRedirectUrl())}>
                 Sign in with Github
               </Signin>
             )

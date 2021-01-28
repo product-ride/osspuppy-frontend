@@ -49,23 +49,20 @@ const TierTitle = styled.div`
 
 const TierRepoTitle = styled.u``;
 
-const TierLabel = styled.div``;
+const TierLabel = styled.div`
+  font-weight: 700;
+`;
 
 const TierDesc = styled.div`
   width: 80%;
   .my-4;
 `;
+
 const TierRow = styled.div`
   .flex;
   .justify-between;
   .items-center;
 `;
-const ListItem = styled.div`
-  .h-10;
-  .bg-gray-400;
-  .p-2;
-  .my-3;
-`
 
 const TierDetails = () => {
   const [openAddTierModal, setAddTierModal] = useState(false);
@@ -86,7 +83,7 @@ const TierDetails = () => {
         {
           !isLoading && !error && (
             data.tiers.map(tier => (
-              <TierItem>
+              <TierItem key={tier.id}>
                 <TierRow>
                   <TierTitle>{tier.minAmount}$ a month</TierTitle>
                   <TierLabel>{tier.title}</TierLabel>
@@ -98,7 +95,7 @@ const TierDetails = () => {
                 <TierRepoTitle>List of Repos and details:</TierRepoTitle>
                 {
                   tier.repositories.map(repo => (
-                    <CollapsibleList title={repo.name} content="This is my content"/>
+                    <CollapsibleList key={repo.id} title={`${repo.ownerOrOrg}/${repo.name}`} content={repo.description}/>
                   ))
                 }
               </TierItem>

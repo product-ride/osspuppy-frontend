@@ -16,6 +16,10 @@ const ModalContainer = styled.div`
   }
 `;
 
+const IconContainer = styled.div`
+
+`;
+
 const ModalHeading = styled.div`
   .p-5;
   .flex;
@@ -114,17 +118,17 @@ const AddTierModal = ({ closeModal }) => {
       <FormContainer>
         <FieldContainer>
           <HalfInputContainer>
-            <Label for="cost-of-tier">Cost in &#36;</Label>
+            <Label htmlFor="cost-of-tier">Cost in &#36;</Label>
             <InputField id="cost-of-tier" type="text" placeholder="For example: 5" />
           </HalfInputContainer>
           <HalfInputContainer>
-            <Label for="label-of-tier">Tier Title</Label>
+            <Label htmlFor="label-of-tier">Tier Title</Label>
             <InputField id="label-of-tier" type="text" placeholder="For example: Basic" />
           </HalfInputContainer>
         </FieldContainer>
         <FieldContainer>
           <FullInputContainer>
-            <Label for="description-of-tier">Tier Description</Label>
+            <Label htmlFor="description-of-tier">Tier Description</Label>
             <TextAreaField rows={8} id="description-of-tier" type="text" placeholder="For example: Access to all my experimental repos" />
           </FullInputContainer>
         </FieldContainer>

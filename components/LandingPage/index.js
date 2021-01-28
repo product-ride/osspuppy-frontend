@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { getGHRedirectUrl } from '../../utils';
 import { Signin, BasicButton } from "../Layout/Layout.styles";
 
 const LandingPageContainer = styled.div`
@@ -45,17 +46,14 @@ const KnowMore = styled(BasicButton)`
   .border-1;
 `
 
-const LandingPage = ({clientId, redirectURI}) => {
-  const scope = ['repo', 'read:name'].join(',');
-  const ghURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirectURI=${redirectURI}&scope=${scope}`;
-
+const LandingPage = () => {
   return (
     <LandingPageContainer>
       <Image src="/oss_puppy.svg" alt="OSS Puppy" />
       <Desc>A OSS tool that helps OSS developers to maintain OSS projects and sponsors</Desc>
       <Desc>Get Started</Desc>
       <ButtonContainer>
-          <SignIn onClick={() => window.location = ghURL}>Sign in with Github</SignIn>
+          <SignIn onClick={() => window.location = getGHRedirectUrl()}>Sign in with Github</SignIn>
           <KnowMore>Know More...</KnowMore>
       </ButtonContainer>
     </LandingPageContainer>
