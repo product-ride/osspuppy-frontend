@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useAuth } from '../../hooks/auth/auth';
-import { FaClipboard } from 'react-icons/fa';
+import { FaRegClipboard } from 'react-icons/fa';
 import Clipboard from 'react-clipboard.js';
 import { useToasts } from 'react-toast-notifications';
 
@@ -55,7 +55,7 @@ const BioItemsContainer = styled.div`
 const Title = styled.h3`
   .text-xl;
   .my-0;
-  .mr-4;
+  .mr-1;
   user-select: none;
 `;
 
@@ -74,7 +74,7 @@ const ClipboardBtn = ({ text, onSuccess }) => {
   return (
     <ClipboardContainer>
       <Clipboard data-clipboard-text={text} onSuccess={onSuccess}>
-        <FaClipboard />
+        <FaRegClipboard />
       </Clipboard>
     </ClipboardContainer>
   )

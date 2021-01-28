@@ -17,10 +17,16 @@ export default function Profile() {
     }
   }, [isLoggedIn]);
 
-  return isLoggedIn && (
-    <ProfileContainer>
-      <ProfileDetails />
-      <TierDetails />
-    </ProfileContainer>
-  );
+  return (
+    <div suppressHydrationWarning={true}>
+      {
+        isLoggedIn && (
+          <ProfileContainer>
+            <ProfileDetails />
+            <TierDetails />
+          </ProfileContainer>
+        )
+      }
+    </div>
+  )
 }

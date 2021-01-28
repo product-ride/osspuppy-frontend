@@ -1,21 +1,58 @@
+import styled from 'styled-components';
 import { useRouter } from "next/router";
-import {
-  Header,
-  LogoContainer,
-  MenuItems,
-  Logo,
-  LayoutContainer,
-  Upgrade,
-  Signin,
-  Logout
-} from "./Layout.styles";
 import { useAuth } from '../../hooks/auth/auth';
 import { getGHRedirectUrl } from '../../utils';
+import { Button } from '../Button';
+
+const LayoutContainer = styled.div`
+  .max-h-full;
+  height: 100vh;
+`;
+
+const Header = styled.div`
+  .sticky;
+  .px-4;
+  .lg: px-32;
+  .flex;
+  .justify-between;
+  .items-center;
+  .py-4;
+  .top-0;
+  .max-w-full;
+  .w-full;
+  .text-gray-900;
+  .text-sm;
+  .bg-white;
+  box-shadow: 0px -1px 0px 0px inset rgba(0,0,0,0.1);
+  z-index: 9999;
+`;
+
+const Logo = styled.img`
+  .h-16;
+`;
+
+const LogoContainer = styled.div`
+  .w-1/3;
+  .lg:w-1/2;
+`;
+
+const MenuItems = styled.div`
+  .flex;
+  .justify-end;
+  .w-2/3;
+  .lg:w-1/2;
+`;
+
+const ActionButton = styled(Button)`
+  .bg-white;
+  .border-2;
+  .border-black;
+  .text-black;
+`;
 
 const Layout = ({ children }) => {
   const router = useRouter();
   const { isLoggedIn, logout } = useAuth();
-  const isServer = typeof window === "undefined";
   const logoutUser = () => {
     logout();
 
@@ -29,19 +66,14 @@ const Layout = ({ children }) => {
           <Logo src="/puppy.svg" alt="OSS Puppy" />
         </LogoContainer>
         <MenuItems>
-          <Upgrade>Upgrade</Upgrade>
-          {
-            !isServer && !isLoggedIn && (
-              <Signin onClick={() => (window.location = getGHRedirectUrl())}>
-                Sign in with Github
-              </Signin>
-            )
-          }
-          {
-            !isServer && isLoggedIn && (
-              <Logout onClick={logoutUser}>Logout</Logout>
-            )
-          }
+        <ActionButton suppressHydrationWarning={true} onClick={() => {
+          if (isLoggedIn) logoutUser();
+          else window.location = getGHRedirectUrl();
+        }}>
+        {
+          isLoggedIn? 'Logout': 'Sign in with Github'
+        }
+        </ActionButton>
         </MenuItems>
       </Header>
       <LayoutContainer>{children}</LayoutContainer>

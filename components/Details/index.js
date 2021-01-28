@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FaCheck } from 'react-icons/fa';
 
 const DetailsContainer = styled.div`
   .w-full;
@@ -11,11 +12,12 @@ const DetailsContainer = styled.div`
   .lg:px-32;
   background: #f9f9f9;
 `;
+
 const Description = styled.p`
   .text-xl;
   .text-center;
   .w-full;
-  .lg: w-9/12;
+  .lg:w-9/12;
 `;
 
 const Steps = styled.p`
@@ -23,8 +25,8 @@ const Steps = styled.p`
   .text-center;
   .mt-2;
   .w-full;
-  .lg: w-7/12;
-  .lg: max-w-7/12;
+  .lg:w-7/12;
+  .lg:max-w-7/12;
   .px-4;
 `;
 
@@ -37,7 +39,7 @@ const StepsContainer = styled.div`
   .flex;
   .justify-around;
   .flex-col;
-  .lg: flex-row;
+  .lg:flex-row;
   .w-full;
 `;
 
@@ -47,16 +49,15 @@ const FeaturesContainer = styled.div`
   .flex-col;
   .lg:flex-row;
   .w-full;
-  .lg: w-7/12;
-  .lg: mx-auto;
+  .lg:w-7/12;
+  .lg:mx-auto;
   .mb-8;
-  .p-4;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 30px 60px 0px;
+  border-radius: 15px;
 `;
 
 const StandardContainer = styled.div`
   .w-full;
-  .p-4;
 `;
 
 const Box = styled.div`
@@ -76,20 +77,43 @@ const Box = styled.div`
 
 const StandardBox = styled(Box)`
   background: #0070f3;
+  border-radius: 15px 0 0 0;
 `;
+
 const ProBox = styled(Box)`
   background: #ff017f;
+  border-radius: 0 15px 0 0;
 `;
 
 const ProContainer = styled.div`
   .w-full;
-  .p-4;
 `;
 
-const Feature = styled.li`
-  .my-4;
-  .px-4;
+const FeatureItem = styled.li`
+  .my-5;
+  .flex;
+  .items-center;
 `;
+
+const FeatureText = styled.div`
+  .ml-2;
+`;
+
+const FeatureList = styled.ul`
+  list-style-type: none;
+  .pl-5;
+`;
+
+const CheckedIcon = styled(FaCheck)`
+  color: green;
+`;
+
+const Feature = ({children}) => (
+  <FeatureItem>
+    <CheckedIcon />
+    <FeatureText>{children}</FeatureText>
+  </FeatureItem>
+);
 
 const Details = () => {
   return (
@@ -115,27 +139,24 @@ const Details = () => {
           <StandardBox>
             <span>Standard Plan</span> <div>Forever free</div>
           </StandardBox>
-          <Feature>Personlized Profile</Feature>
-          <Feature>Create Sponsorship Tiers</Feature>
-          <Feature>Assign access roles to sponsors</Feature>
-          <Feature>Assignn repo level access based on tiers</Feature>
-          <Feature>Auto-label PRs and Issues by Tiers</Feature>
-          <Feature>Private repos appears in Search with Description only </Feature>
+          <FeatureList>
+            <Feature>Personlized Profile</Feature>
+            <Feature>Create Sponsorship Tiers</Feature>
+            <Feature>Assignn repo level access based on tiers</Feature>
+          </FeatureList>
         </StandardContainer>
         <ProContainer>
           <ProBox>
             <span>Premium Plan</span> <div>Coming soon</div>
           </ProBox>
-          <Feature>Personlized Profile</Feature>
-          <Feature>Create Sponsorship Tiers</Feature>
-          <Feature>Assign access roles to sponsors</Feature>
-          <Feature>Assignn repo level access based on tiers</Feature>
-          <Feature>Auto-label PRs and Issues by Tiers</Feature>
-          <Feature>Private repos appears in Search with Description only </Feature>
-          <Feature>Dashboard with Analytics</Feature>
-          <Feature>Email notifications and Summaries</Feature>
-          <Feature>Customized Automation</Feature>
-          <Feature>and much more...</Feature>
+          <FeatureList>
+            <Feature>Everything in standard</Feature>
+            <Feature>Assignn repo level access based on tiers</Feature>
+            <Feature>Auto-label PRs and Issues by Tiers</Feature>
+            <Feature>Dashboard with Analytics</Feature>
+            <Feature>Email notifications and Summaries</Feature>
+            <Feature>Customized Automation</Feature>
+          </FeatureList>
         </ProContainer>
       </FeaturesContainer>
     </>

@@ -4,8 +4,9 @@ import styled from "styled-components";
 import { addTier, fetchTiers } from '../../api';
 import AddTierModal from '../AddTierModal/index';
 import CollapsibleList from '../CollapsibleList';
-import { PrimaryButton } from '../Button/Button'
+import { PrimaryButton } from '../Button'
 import { useToasts } from 'react-toast-notifications';
+import { FaPencilAlt } from 'react-icons/fa';
 
 const TierContainer = styled.div`
   .px-4;
@@ -65,17 +66,14 @@ const TierRow = styled.div`
 `;
 
 const TierDetails = () => {
-  const [openAddTierModal, setAddTierModal] = useState(false);
+  const [isTierModalOpen, setIsTierModalOpen] = useState(false);
   const client = useQueryClient();
-  const ToogleAddTier = () =>{
-    setAddTierModal(!openAddTierModal);
-  }
   const toast = useToasts();
   const { data, isLoading, error } = useQuery('tiers', fetchTiers);
   const { mutate: addTierMutation, isLoading: isAddingTier } = useMutation(addTier, {
     onSuccess: () => {
       client.invalidateQueries('tiers');
-      setAddTierModal(false);
+      setIsTierModalOpen(false);
     },
     onError: () => {
       toast.addToast('Could not create the tier, please try again!', {
@@ -90,8 +88,7 @@ const TierDetails = () => {
       <TierList>
         <TitleContainer>
           <Title>Tier Details</Title>
-          <AddButton onClick={() => ToogleAddTier()}>Add Tier</AddButton>
-          {openAddTierModal && <AddTierModal isSubmitting={isAddingTier} onSubmit={(data) => addTierMutation(data)} closeModal={ToogleAddTier}/>}
+          <AddButton onClick={() => setIsTierModalOpen(true)}>Add Tier</AddButton>
         </TitleContainer>
         {isLoading && <div>Loading...</div>}
         {
@@ -101,7 +98,9 @@ const TierDetails = () => {
                 <TierRow>
                   <TierTitle>{tier.minAmount}$ a month</TierTitle>
                   <TierLabel>{tier.title}</TierLabel>
-                  <AddButton>Edit Tier</AddButton>
+                  <AddButton>
+                    <FaPencilAlt />
+                  </AddButton>
                 </TierRow>
                 <TierDesc>
                   {tier.description}
@@ -117,6 +116,12 @@ const TierDetails = () => {
           )
         }
       </TierList>
+      <AddTierModal 
+        isSubmitting={isAddingTier}
+        onSubmit={(data) => addTierMutation(data)}
+        close={() => setIsTierModalOpen(false)}
+        isOpen={isTierModalOpen}
+      />
     </TierContainer>
   );
 };

@@ -1,7 +1,8 @@
+import { useRouter } from 'next/router';
 import styled from "styled-components";
+import { useAuth } from '../../hooks/auth/auth';
 import { getGHRedirectUrl } from '../../utils';
-import { Signin } from "../Layout/Layout.styles";
-import { BasicButton } from '../Button/Button';
+import { Button } from '../Button';
 
 const LandingPageContainer = styled.div`
   .flex;
@@ -32,14 +33,15 @@ const ButtonContainer = styled.div`
   .justify-between;
 `
 
-const SignIn = styled(Signin)`
+const ActionButton = styled(Button)`
+   background: #1b232f;
   .text-xl;
   .lg:text-2xl;
   .p-4;
   .lg:mr-8;
 `
 
-const KnowMore = styled(BasicButton)`
+const KnowMore = styled(Button)`
   .text-xl;
   .lg:text-2xl;
   .text-black;
@@ -48,14 +50,25 @@ const KnowMore = styled(BasicButton)`
 `
 
 const LandingPage = () => {
+  const { isLoggedIn } = useAuth();
+  const router = useRouter();
+  
   return (
     <LandingPageContainer>
       <Image src="/oss_puppy.svg" alt="OSS Puppy" />
       <Desc>A OSS tool that helps OSS developers to maintain OSS projects and sponsors</Desc>
       <Desc>Get Started</Desc>
       <ButtonContainer>
-          <SignIn onClick={() => window.location = getGHRedirectUrl()}>Sign in with Github</SignIn>
-          <KnowMore>Know More...</KnowMore>
+        <ActionButton suppressHydrationWarning={true} onClick={() => {
+            if (isLoggedIn) {
+              router.push('/profile');
+            } else {
+              window.location = getGHRedirectUrl();
+            }
+        }}>
+          {isLoggedIn? 'Go to Profile': 'Sign in with Github'}
+        </ActionButton>
+        <KnowMore>Know More...</KnowMore>
       </ButtonContainer>
     </LandingPageContainer>
   );

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
- const Button = styled.button`
+ const BasicButton = styled.button`
   .border-0;
   .px-4;
   .py-2;
@@ -10,15 +10,16 @@ import styled from "styled-components";
   .lg: text-sm;
   .rounded;
   cursor: pointer;
+  outline: none;
 `;
 
-export const BasicButton = ({ isLoading, loadingText, children, ...rest }) => (
-  <Button {...rest} disabled={isLoading}>
+export const Button = ({ isLoading, loadingText, children, ...rest }) => (
+  <BasicButton {...rest} disabled={isLoading}>
     {!isLoading && children}
     {isLoading && (loadingText || 'Please wait...')}
-  </Button>
+  </BasicButton>
 );
 
-export const PrimaryButton = styled(BasicButton)`
+export const PrimaryButton = styled(Button)`
   background: #1ca4e3;
 `;

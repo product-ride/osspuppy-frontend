@@ -13,6 +13,10 @@ async function authFetch(uri, options = {}) {
     }
   });
 
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+
   return response.json();
 }
 
