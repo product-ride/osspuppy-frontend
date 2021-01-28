@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useForm } from "react-hook-form";
 import { PrimaryButton } from "../Button/Button";
-import { addTier } from '../../api';
 
 const ModalContainer = styled.div`
   .fixed;
@@ -112,11 +111,12 @@ const ErrorField = styled.div`
   color: red;
 `;
 
-const AddTierModal = ({ closeModal }) => {
+const AddTierButton = styled(PrimaryButton)`
+  .h-10
+`;
+
+const AddTierModal = ({ closeModal, onSubmit, isSubmitting }) => {
   const { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data) => {
-    addTier(data).then(console.log);
-  };
   const onKeyPress = (evt) => {
     if (!/^[0-9]+$/.test(evt.key)) evt.preventDefault()
   }
@@ -149,7 +149,7 @@ const AddTierModal = ({ closeModal }) => {
           </FullInputContainer>
         </FieldContainer>
         <FieldContainer>
-          <PrimaryButton type="submit">Add Tier</PrimaryButton>
+          <AddTierButton isLoading={isSubmitting} loadingText="Submitting..." type="submit">Submit</AddTierButton>
         </FieldContainer>
       </FormContainer>
     </ModalContainer>

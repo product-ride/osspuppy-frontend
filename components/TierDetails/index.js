@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import styled from "styled-components";
-import { fetchTiers } from '../../api';
+import { addTier, fetchTiers } from '../../api';
 import AddTierModal from '../AddTierModal/index';
 import CollapsibleList from '../CollapsibleList';
 import { PrimaryButton } from '../Button/Button'
+import { useToasts } from 'react-toast-notifications';
 
 const TierContainer = styled.div`
   .px-4;
@@ -65,18 +66,32 @@ const TierRow = styled.div`
 
 const TierDetails = () => {
   const [openAddTierModal, setAddTierModal] = useState(false);
+  const client = useQueryClient();
   const ToogleAddTier = () =>{
     setAddTierModal(!openAddTierModal);
   }
+  const toast = useToasts();
   const { data, isLoading, error } = useQuery('tiers', fetchTiers);
+  const { mutate: addTierMutation, isLoading: isAddingTier } = useMutation(addTier, {
+    onSuccess: () => {
+      client.invalidateQueries('tiers');
+      setAddTierModal(false);
+    },
+    onError: () => {
+      toast.addToast('Could not create the tier, please try again!', {
+        appearance: 'error',
+        autoDismiss: true
+      });
+    }
+  });
 
   return (
     <TierContainer>
       <TierList>
         <TitleContainer>
           <Title>Tier Details</Title>
-          <AddButton onClick={()=>ToogleAddTier()}>Add Tier</AddButton>
-          {openAddTierModal && <AddTierModal closeModal={ToogleAddTier}/>}
+          <AddButton onClick={() => ToogleAddTier()}>Add Tier</AddButton>
+          {openAddTierModal && <AddTierModal isSubmitting={isAddingTier} onSubmit={(data) => addTierMutation(data)} closeModal={ToogleAddTier}/>}
         </TitleContainer>
         {isLoading && <div>Loading...</div>}
         {
