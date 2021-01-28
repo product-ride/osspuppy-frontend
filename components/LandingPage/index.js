@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { getGHRedirectUrl } from '../../utils';
-import { Signin, BasicButton } from "../Layout/Layout.styles";
+import { Signin } from "../Layout/Layout.styles";
+import { BasicButton } from '../Button/Button';
 
 const LandingPageContainer = styled.div`
   .flex;

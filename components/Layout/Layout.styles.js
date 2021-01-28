@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BasicButton } from '../Button/Button';
 
 export const LayoutContainer = styled.div`
   .max-h-full;
@@ -34,18 +35,6 @@ export const MenuItems = styled.div`
   .justify-end;
   .w-2/3;
   .lg:w-1/2;
-`;
-
-export const BasicButton = styled.button`
-  .border-0;
-  .px-4;
-  .py-2;
-  .ml-4;
-  .text-white;
-  .text-xs;
-  .lg: text-sm;
-  .rounded;
-  cursor: pointer;
 `;
 
 export const Upgrade = styled(BasicButton)`

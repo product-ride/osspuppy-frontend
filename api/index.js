@@ -8,6 +8,7 @@ async function authFetch(uri, options = {}) {
     ...options,
     headers: {
       Authorization: `Bearer ${getJwtToken()}`,
+      'Content-Type': 'application/json',
       ...options.headers
     }
   });
@@ -17,4 +18,11 @@ async function authFetch(uri, options = {}) {
 
 export function fetchTiers() {
   return authFetch('/tiers');
+}
+
+export function addTier(data) {
+  return authFetch('/tiers', {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
 }

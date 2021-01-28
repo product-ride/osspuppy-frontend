@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import { useForm } from "react-hook-form";
+import { PrimaryButton } from "../Button/Button";
+import { addTier } from '../../api';
 
 const ModalContainer = styled.div`
   .fixed;
@@ -8,16 +11,11 @@ const ModalContainer = styled.div`
   background: white;
   .rounded;
   width:40vw;
-  height:400px;
   border: 0.5px solid #c8c8c8;
   .shadow-2xl;
   @media(max-width:500px){
     width: 85vw;
   }
-`;
-
-const IconContainer = styled.div`
-
 `;
 
 const ModalHeading = styled.div`
@@ -35,13 +33,14 @@ const CloseButton = styled.div`
   .text-gray-600;
   cursor: pointer;
 `;
+
 const Line = styled.div`
   background-color: #c8c8c8;
   height: 1px;
   width: 100%;
 `;
 
-const FormContainer = styled.div`
+const FormContainer = styled.form`
   .p-5;
   .w-full;
 `;
@@ -107,7 +106,21 @@ const TextAreaField = styled.textarea`
   .focus:border-gray-500;
 `;
 
+const ErrorField = styled.div`
+  .text-xs;
+  .mt-1;
+  color: red;
+`;
+
 const AddTierModal = ({ closeModal }) => {
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = (data) => {
+    addTier(data).then(console.log);
+  };
+  const onKeyPress = (evt) => {
+    if (!/^[0-9]+$/.test(evt.key)) evt.preventDefault()
+  }
+
   return (
     <ModalContainer>
       <ModalHeading>
@@ -115,22 +128,28 @@ const AddTierModal = ({ closeModal }) => {
         <CloseButton onClick={() => closeModal()}>&#10005;</CloseButton>
       </ModalHeading>
       <Line />
-      <FormContainer>
+      <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <FieldContainer>
           <HalfInputContainer>
             <Label htmlFor="cost-of-tier">Cost in &#36;</Label>
-            <InputField id="cost-of-tier" type="text" placeholder="For example: 5" />
+            <InputField onKeyPress={onKeyPress} name="minAmount" ref={register({ required: true })} id="cost-of-tier" type="text" placeholder="For example: 5" />
+            {errors.minAmount && <ErrorField>cost is required</ErrorField>}
           </HalfInputContainer>
           <HalfInputContainer>
             <Label htmlFor="label-of-tier">Tier Title</Label>
-            <InputField id="label-of-tier" type="text" placeholder="For example: Basic" />
+            <InputField name="title" ref={register({ required: true })} id="label-of-tier" type="text" placeholder="For example: Basic" />
+            {errors.title && <ErrorField>title is required</ErrorField>}
           </HalfInputContainer>
         </FieldContainer>
         <FieldContainer>
           <FullInputContainer>
             <Label htmlFor="description-of-tier">Tier Description</Label>
-            <TextAreaField rows={8} id="description-of-tier" type="text" placeholder="For example: Access to all my experimental repos" />
+            <TextAreaField name="description" ref={register({ required: true })} rows={8} id="description-of-tier" type="text" placeholder="For example: Access to all my experimental repos" />
+            {errors.description && <ErrorField>description is required</ErrorField>}
           </FullInputContainer>
+        </FieldContainer>
+        <FieldContainer>
+          <PrimaryButton type="submit">Add Tier</PrimaryButton>
         </FieldContainer>
       </FormContainer>
     </ModalContainer>

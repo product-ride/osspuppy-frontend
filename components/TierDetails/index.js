@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { fetchTiers } from '../../api';
 import AddTierModal from '../AddTierModal/index';
 import CollapsibleList from '../CollapsibleList';
-import { BasicButton } from "../Layout/Layout.styles";
+import { PrimaryButton } from '../Button/Button'
 
 const TierContainer = styled.div`
   .px-4;
@@ -32,9 +32,8 @@ const Title = styled.h3`
   .mt-0;
 `;
 
-const AddButton = styled(BasicButton)`
+const AddButton = styled(PrimaryButton)`
   .h-10;
-  background: #1ca4e3;
 `;
 
 const TierItem = styled.div`
@@ -92,7 +91,7 @@ const TierDetails = () => {
                 <TierDesc>
                   {tier.description}
                 </TierDesc>
-                <TierRepoTitle>List of Repos and details:</TierRepoTitle>
+                {tier.repositories && tier.repositories.length > 0 && <TierRepoTitle>List of Repos and details:</TierRepoTitle>}
                 {
                   tier.repositories.map(repo => (
                     <CollapsibleList key={repo.id} title={`${repo.ownerOrOrg}/${repo.name}`} content={repo.description}/>
