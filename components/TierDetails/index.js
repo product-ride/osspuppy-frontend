@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import styled from "styled-components";
-import { addTier, fetchTiers } from '../../api';
+import { addTier, deleteTier, fetchTiers } from '../../api';
 import AddTierModal from '../AddTierModal/index';
 import CollapsibleList from '../CollapsibleList';
-import { PrimaryButton } from '../Button'
+import { DangerButton, PrimaryButton } from '../Button'
 import { useToasts } from 'react-toast-notifications';
-import { FaPencilAlt } from 'react-icons/fa';
+import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 
 const TierContainer = styled.div`
   .px-4;
@@ -34,7 +34,11 @@ const Title = styled.h3`
   .mt-0;
 `;
 
-const AddButton = styled(PrimaryButton)`
+const ActionButton = styled(PrimaryButton)`
+  .h-10;
+`;
+
+const DeleteButton = styled(DangerButton)`
   .h-10;
 `;
 
@@ -69,7 +73,8 @@ const TierDetails = () => {
   const [isTierModalOpen, setIsTierModalOpen] = useState(false);
   const client = useQueryClient();
   const toast = useToasts();
-  const { data, isLoading, error } = useQuery('tiers', fetchTiers);
+  const { data, isLoading, isSuccess: isTierLoaded } = useQuery('tiers', fetchTiers);
+  const selectedTier = useRef(null);
   const { mutate: addTierMutation, isLoading: isAddingTier } = useMutation(addTier, {
     onSuccess: () => {
       client.invalidateQueries('tiers');
@@ -82,25 +87,39 @@ const TierDetails = () => {
       });
     }
   });
+  const { mutate: deleteTierMutation } = useMutation(deleteTier, {
+    onSuccess:() => client.invalidateQueries('tiers'),
+    onError: () => {
+      toast.addToast('Could not delete the tier, please try again!', {
+        appearance: 'error',
+        autoDismiss: true
+      });
+    }
+  });
 
   return (
     <TierContainer>
       <TierList>
         <TitleContainer>
           <Title>Tier Details</Title>
-          <AddButton onClick={() => setIsTierModalOpen(true)}>Add Tier</AddButton>
+          <ActionButton onClick={() => setIsTierModalOpen(true)}>Add Tier</ActionButton>
         </TitleContainer>
         {isLoading && <div>Loading...</div>}
         {
-          !isLoading && !error && (
+          isTierLoaded && (
             data.tiers.map(tier => (
               <TierItem key={tier.id}>
                 <TierRow>
                   <TierTitle>{tier.minAmount}$ a month</TierTitle>
                   <TierLabel>{tier.title}</TierLabel>
-                  <AddButton>
-                    <FaPencilAlt />
-                  </AddButton>
+                  <div>
+                    <ActionButton>
+                      <FaPencilAlt />
+                    </ActionButton>
+                    <DeleteButton>
+                      <FaTrash onClick={() => deleteTierMutation(tier.id)} />
+                    </DeleteButton>
+                  </div>
                 </TierRow>
                 <TierDesc>
                   {tier.description}

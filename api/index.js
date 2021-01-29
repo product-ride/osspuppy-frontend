@@ -14,7 +14,10 @@ async function authFetch(uri, options = {}) {
   });
 
   if (!response.ok) {
-    throw new Error(response.status);
+    throw new Error({
+      statusCode: response.status,
+      message: response.body
+    });
   }
 
   return response.json();
@@ -28,5 +31,11 @@ export function addTier(data) {
   return authFetch('/tiers', {
     method: 'POST',
     body: JSON.stringify(data)
+  });
+}
+
+export function deleteTier(id) {
+  return authFetch(`/tiers/${id}`, {
+    method: 'DELETE'
   });
 }

@@ -23,3 +23,7 @@ export const Button = ({ isLoading, loadingText, children, ...rest }) => (
 export const PrimaryButton = styled(Button)`
   background: #1ca4e3;
 `;
+
+export const DangerButton = styled(Button)`
+  background: red;
+`;

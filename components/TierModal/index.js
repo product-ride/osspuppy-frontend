@@ -13,11 +13,11 @@ import {
   TextAreaField
 } from '../Form';
 
-const Button = styled(PrimaryButton)`
+const ActionButton = styled(PrimaryButton)`
   .h-10
 `;
 
-const AddTierModal = ({ close, onSubmit, isSubmitting, isOpen }) => {
+const TierModal = ({ close, onSubmit, isSubmitting, isOpen }) => {
   const { register, handleSubmit, errors } = useForm();
   const onKeyPress = (evt) => {
     if (!/^[0-9]+$/.test(evt.key)) evt.preventDefault()
@@ -46,11 +46,11 @@ const AddTierModal = ({ close, onSubmit, isSubmitting, isOpen }) => {
           </FullInputContainer>
         </FieldContainer>
         <FieldContainer>
-          <Button isLoading={isSubmitting} loadingText="Submitting..." type="submit">Submit</Button>
+          <ActionButton isLoading={isSubmitting} loadingText="Submitting..." type="submit">Submit</ActionButton>
         </FieldContainer>
       </FormContainer>
     </Modal>
   );
 };
 
-export default AddTierModal;
+export default TierModal;
