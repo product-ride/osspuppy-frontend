@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import Layout from '../components/Layout';
-import AuthProvider from '../contexts/auth/auth';
+import AuthProvider from '../contexts/auth';
 import { ToastProvider } from 'react-toast-notifications';
 import { QueryClient, QueryClientProvider } from 'react-query';
 

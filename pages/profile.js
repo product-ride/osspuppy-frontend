@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import styled from "styled-components";
 import ProfileDetails from "../components/ProfileDetails";
 import TierDetails from "../components/TierDetails";
-import { useAuth } from '../hooks/auth/auth';
+import { useAuth } from '../hooks/auth';
 
 const ProfileContainer = styled.div``;
 

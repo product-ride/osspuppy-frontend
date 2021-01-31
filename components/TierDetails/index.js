@@ -1,13 +1,15 @@
 import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import styled from "styled-components";
-import { addTier, deleteTier, fetchTiers, updateTier } from '../../api';
+import { addRepo, addTier, deleteTier, fetchTiers, updateTier } from '../../api';
 import TierModal from '../TierModal';
 import CollapsibleList from '../CollapsibleList';
 import { DangerButton, PrimaryButton } from '../Button'
 import { useToasts } from 'react-toast-notifications';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 import ConfirmModal from '../ConfirmModal';
+import RepoModal from '../RepoModal';
+import { useAuth } from '../../hooks/auth';
 
 const TierContainer = styled.div`
   .px-4;
@@ -63,11 +65,13 @@ const TierRow = styled.div`
 
 const TierDetails = () => {
   const [isTierModalOpen, setIsTierModalOpen] = useState(false);
+  const [isRepoModalOpen, setIsRepoModalOpen] = useState(false);
   const [isDeleteConfirmModalOpen, setIsDeleteConfirnModalOpen] = useState(false);
   const client = useQueryClient();
   const toast = useToasts();
   const { data, isLoading, isSuccess: isTierLoaded } = useQuery('tiers', fetchTiers);
   const selectedTier = useRef(null);
+  const { user } = useAuth();
   const { mutate: addTierMutation, isLoading: isAddingTier } = useMutation(addTier, {
     onSuccess: () => {
       client.invalidateQueries('tiers');
@@ -78,6 +82,25 @@ const TierDetails = () => {
         appearance: 'error',
         autoDismiss: true
       });
+    }
+  });
+  const { mutate: addRepoMutation, isLoading: isAddingRepo } = useMutation(addRepo, {
+    onSuccess: () => {
+      client.invalidateQueries('tiers');
+      setIsRepoModalOpen(false);
+    },
+    onError: (err) => {
+      if (err.statusCode === 404) {
+        toast.addToast('Sorry! that repo was not found', {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      } else {
+        toast.addToast('Could not add the repo, please try again!', {
+          appearance: 'error',
+          autoDismiss: true
+        });
+      }
     }
   });
   const { mutate: deleteTierMutation } = useMutation(deleteTier, {
@@ -123,6 +146,10 @@ const TierDetails = () => {
                   <div>
                     <PrimaryButton size="lg" onClick={() => {
                       selectedTier.current = tier;
+                      setIsRepoModalOpen(true);
+                    }}>Add Repo</PrimaryButton>
+                    <PrimaryButton size="lg" onClick={() => {
+                      selectedTier.current = tier;
                       setIsTierModalOpen(true);
                     }}>
                       <FaPencilAlt />
@@ -164,6 +191,18 @@ const TierDetails = () => {
         close={() => setIsTierModalOpen(false)}
         isOpen={isTierModalOpen}
         tier={selectedTier.current}
+      />
+      <RepoModal
+        isOpen={isRepoModalOpen}
+        isSubmitting={isAddingRepo}
+        close={() => setIsRepoModalOpen(false)}
+        onSubmit={(data) => {
+          addRepoMutation({
+            tierId: selectedTier.current.id,
+            ownerOrOrg: user.sub,
+            ...data
+          });
+        }}
       />
       <ConfirmModal
         heading="Are you sure to delete the tier?"

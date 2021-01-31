@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
-import { useAuth } from '../../hooks/auth/auth';
+import { useAuth } from '../../hooks/auth';
 
 export default function GitHubRedirect() {
   const router = useRouter();

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useAuth } from '../../hooks/auth/auth';
+import { useAuth } from '../../hooks/auth';
 import { FaRegClipboard } from 'react-icons/fa';
 import Clipboard from 'react-clipboard.js';
 import { useToasts } from 'react-toast-notifications';

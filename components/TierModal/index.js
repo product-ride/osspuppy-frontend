@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 
 const TierModal = ({ close, onSubmit, isSubmitting, isOpen, tier}) => {
   const { register, handleSubmit, errors, setValue } = useForm();
+  const heading = tier? 'Edit Tier': 'Add Tier';
  
   useEffect(() => {
     if (tier) {
@@ -30,7 +31,7 @@ const TierModal = ({ close, onSubmit, isSubmitting, isOpen, tier}) => {
   }
 
   return (
-    <Modal isOpen={isOpen} heading="Add Tier" close={close}>
+    <Modal isOpen={isOpen} heading={heading} close={close}>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <FieldContainer>
           <HalfInputContainer>

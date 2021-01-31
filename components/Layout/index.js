@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useRouter } from "next/router";
-import { useAuth } from '../../hooks/auth/auth';
+import { useAuth } from '../../hooks/auth';
 import { getGHRedirectUrl } from '../../utils';
 import { Button } from '../Button';
 
