@@ -53,3 +53,10 @@ export function deleteTier(id) {
     method: 'DELETE'
   });
 }
+
+export function deleteRepo({ tierId, ownerOrOrg, name }) {
+  return fetchWrapper(`/tiers/${tierId}/repositories`, {
+    method: 'DELETE',
+    body: JSON.stringify({ name, ownerOrOrg })
+  });
+}

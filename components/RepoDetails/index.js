@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { useState, useRef } from 'react';
 import ReactMarkdown from 'react-markdown'
-import { FaPlus, FaMinus } from 'react-icons/fa';
+import { FaPlus, FaMinus, FaPencilAlt, FaTrash } from 'react-icons/fa';
+import { DangerButton, PrimaryButton } from '../Button';
+import { useAuth } from '../../hooks/auth';
 
 const ListSection = styled.div`
   .flex;
@@ -41,11 +43,15 @@ const ListText = styled.div`
   .px-5
 `;
 
-const IconConteiner = styled.div`
+const ActionsContainer = styled.div`
   margin-left: auto;
 `;
 
-const CollapsibleList = ({ title, content }) => {
+const IconConteiner = styled.div`
+  margin-left: 20px;
+`;
+
+const RepositoryDetails = ({ repo, onRepoDelete }) => {
   const [active, setActive] = useState(false);
   const [height, setHeight] = useState('0px');
   const contentRef = useRef(null);
@@ -55,12 +61,28 @@ const CollapsibleList = ({ title, content }) => {
       active? '0px' : `${contentRef.current.scrollHeight}px`
     );
   };
+  const { user } = useAuth();
+  const title = `${user.sub}/${repo.name}`;
+
   return (
     <ListSection>
       <ListButton onClick={toggleList}>
         <ButtonTitle>
           {title}
         </ButtonTitle>
+        <ActionsContainer>
+          <PrimaryButton size="lg" onClick={(evt) => {
+            evt.stopPropagation();
+          }}>
+            <FaPencilAlt />
+          </PrimaryButton>
+          <DangerButton size="lg" onClick={(evt) => {
+            evt.stopPropagation();
+            onRepoDelete(repo);
+          }}>
+            <FaTrash />
+          </DangerButton>
+        </ActionsContainer>
         <IconConteiner>
           {!active && <FaPlus />}
           {active && <FaMinus />}
@@ -69,7 +91,7 @@ const CollapsibleList = ({ title, content }) => {
       <ListContent ref={contentRef} style={{ maxHeight: `${height}` }}>
         <ListText>
           <ReactMarkdown>
-            {content || 'No description available'}
+            {repo.description}
           </ReactMarkdown>
         </ListText>
       </ListContent>
@@ -77,4 +99,4 @@ const CollapsibleList = ({ title, content }) => {
   );
 };
 
-export default CollapsibleList;
+export default RepositoryDetails;

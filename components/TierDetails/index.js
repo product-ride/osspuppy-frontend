@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import styled from "styled-components";
-import { addRepo, addTier, deleteTier, fetchTiers, updateTier } from '../../api';
+import { addRepo, addTier, deleteRepo, deleteTier, fetchTiers, updateTier } from '../../api';
 import TierModal from '../TierModal';
-import CollapsibleList from '../CollapsibleList';
+import RepositoryDetails from '../RepoDetails';
 import { DangerButton, PrimaryButton } from '../Button'
 import { useToasts } from 'react-toast-notifications';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
@@ -66,11 +66,13 @@ const TierRow = styled.div`
 const TierDetails = () => {
   const [isTierModalOpen, setIsTierModalOpen] = useState(false);
   const [isRepoModalOpen, setIsRepoModalOpen] = useState(false);
-  const [isDeleteConfirmModalOpen, setIsDeleteConfirnModalOpen] = useState(false);
+  const [isDeleteTierConfirmModalOpen, setIsDeleteTierConfirnModalOpen] = useState(false);
+  const [isDeleteRepoConfirmModalOpen, setIsDeleteRepoConfirnModalOpen] = useState(false);
   const client = useQueryClient();
   const toast = useToasts();
-  const { data, isLoading, isSuccess: isTierLoaded } = useQuery('tiers', fetchTiers);
   const selectedTier = useRef(null);
+  const selectedRepo = useRef(null);
+  const { data, isLoading, isSuccess: isTierLoaded } = useQuery('tiers', fetchTiers);
   const { user } = useAuth();
   const { mutate: addTierMutation, isLoading: isAddingTier } = useMutation(addTier, {
     onSuccess: () => {
@@ -107,6 +109,15 @@ const TierDetails = () => {
     onSuccess:() => client.invalidateQueries('tiers'),
     onError: () => {
       toast.addToast('Could not delete the tier, please try again!', {
+        appearance: 'error',
+        autoDismiss: true
+      });
+    }
+  });
+  const { mutate: deleteRepoMutation } = useMutation(deleteRepo, {
+    onSuccess:() => client.invalidateQueries('tiers'),
+    onError: () => {
+      toast.addToast('Could not delete the repo, please try again!', {
         appearance: 'error',
         autoDismiss: true
       });
@@ -156,7 +167,7 @@ const TierDetails = () => {
                     </PrimaryButton>
                     <DangerButton size="lg" onClick={() => {
                         selectedTier.current = tier;
-                        setIsDeleteConfirnModalOpen(true);
+                        setIsDeleteTierConfirnModalOpen(true);
                       }}>
                       <FaTrash />
                     </DangerButton>
@@ -168,7 +179,11 @@ const TierDetails = () => {
                 {tier.repositories && tier.repositories.length > 0 && <TierRepoTitle>List of Repos and details:</TierRepoTitle>}
                 {
                   tier.repositories.map(repo => (
-                    <CollapsibleList key={repo.id} title={`${repo.ownerOrOrg}/${repo.name}`} content={repo.description}/>
+                    <RepositoryDetails key={repo.id} repo={repo} onRepoDelete={(repo) => {
+                      selectedTier.current = tier;
+                      selectedRepo.current = repo;
+                      setIsDeleteRepoConfirnModalOpen(true);
+                    }}/>
                   ))
                 }
               </TierItem>
@@ -206,9 +221,19 @@ const TierDetails = () => {
       />
       <ConfirmModal
         heading="Are you sure to delete the tier?"
-        isOpen={isDeleteConfirmModalOpen}
-        close={() => setIsDeleteConfirnModalOpen(false)}
+        isOpen={isDeleteTierConfirmModalOpen}
+        close={() => setIsDeleteTierConfirnModalOpen(false)}
         onYes={() => deleteTierMutation(selectedTier.current.id)}
+      />
+      <ConfirmModal
+        heading="Are you sure to delete the repo?"
+        isOpen={isDeleteRepoConfirmModalOpen}
+        close={() => setIsDeleteRepoConfirnModalOpen(false)}
+        onYes={() => deleteRepoMutation({
+          name: selectedRepo.current.name,
+          ownerOrOrg: user.sub,
+          tierId: selectedTier.current.id
+        })}
       />
     </TierContainer>
   );
