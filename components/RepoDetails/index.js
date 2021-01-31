@@ -10,7 +10,7 @@ const ListSection = styled.div`
   .flex-col;
 `;
 
-const ListButton = styled.button`
+const ListBox = styled.div`
   .bg-gray-300;
   .flex;
   .items-center;
@@ -51,28 +51,22 @@ const IconConteiner = styled.div`
   margin-left: 20px;
 `;
 
-const RepositoryDetails = ({ repo, onRepoDelete }) => {
+const RepositoryDetails = ({ repo, onRepoDelete, onRepoEdit }) => {
   const [active, setActive] = useState(false);
-  const [height, setHeight] = useState('0px');
   const contentRef = useRef(null);
-  const toggleList = () => {
-    setActive(active => !active);
-    setHeight(
-      active? '0px' : `${contentRef.current.scrollHeight}px`
-    );
-  };
   const { user } = useAuth();
   const title = `${user.sub}/${repo.name}`;
 
   return (
     <ListSection>
-      <ListButton onClick={toggleList}>
+      <ListBox onClick={() => setActive(active => !active)}>
         <ButtonTitle>
           {title}
         </ButtonTitle>
         <ActionsContainer>
           <PrimaryButton size="lg" onClick={(evt) => {
             evt.stopPropagation();
+            onRepoEdit(repo);
           }}>
             <FaPencilAlt />
           </PrimaryButton>
@@ -87,8 +81,8 @@ const RepositoryDetails = ({ repo, onRepoDelete }) => {
           {!active && <FaPlus />}
           {active && <FaMinus />}
         </IconConteiner>
-      </ListButton>
-      <ListContent ref={contentRef} style={{ maxHeight: `${height}` }}>
+      </ListBox>
+      <ListContent ref={contentRef} style={{ maxHeight: active? contentRef.current.scrollHeight: '0px' }}>
         <ListText>
           <ReactMarkdown>
             {repo.description}

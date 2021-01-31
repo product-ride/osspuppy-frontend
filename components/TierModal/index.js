@@ -24,7 +24,7 @@ const TierModal = ({ close, onSubmit, isSubmitting, isOpen, tier}) => {
       setValue('title', tier.title);
       setValue('description', tier.description);
     }
-  }, [tier]);
+  }, [tier, isOpen]);
 
   const onKeyPress = (evt) => {
     if (!/^[0-9]+$/.test(evt.key)) evt.preventDefault()

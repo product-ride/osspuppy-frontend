@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { PrimaryButton } from '../Button';
 import {
@@ -11,16 +12,24 @@ import {
 } from '../Form';
 import Modal from '../Modal';
 
-export default function RepoModal({ isOpen, close, isSubmitting, onSubmit }) {
-  const { register, handleSubmit, errors } = useForm();
+export default function RepoModal({ isOpen, close, isSubmitting, onSubmit, repo }) {
+  const { register, handleSubmit, errors, setValue } = useForm();
+  const title = repo? 'Edit Repo': 'Add Repo';
+
+  useEffect(() => {
+    if (repo) {
+      setValue('name', repo.name);
+      setValue('description', repo.description);
+    }
+  }, [repo, isOpen]);
 
   return (
-    <Modal isOpen={isOpen} close={close} heading="Add Repo">
+    <Modal isOpen={isOpen} close={close} heading={title}>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <FieldContainer>
           <FullInputContainer>
             <Label htmlFor="repo">Repo</Label>
-            <InputField name="name" ref={register({ required: true })} id="repo" type="text" placeholder="For example: styled-wind" />
+            <InputField disabled={repo != null} name="name" ref={register({ required: true })} id="repo" type="text" placeholder="For example: styled-wind" />
             {errors.name && <ErrorField>repo is required</ErrorField>}
           </FullInputContainer>
         </FieldContainer>

@@ -41,6 +41,13 @@ export function addRepo({ tierId, ...data }) {
   });
 }
 
+export function updateRepo({ tierId, ...data }) {
+  return fetchWrapper(`/tiers/${tierId}/repositories`, {
+    method: 'PATCH',
+    body: JSON.stringify(data)
+  });
+}
+
 export function updateTier({ id, ...data }) {
   return fetchWrapper(`/tiers/${id}`, {
     method: 'PUT',

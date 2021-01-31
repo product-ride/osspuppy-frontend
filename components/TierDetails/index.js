@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import styled from "styled-components";
-import { addRepo, addTier, deleteRepo, deleteTier, fetchTiers, updateTier } from '../../api';
+import { addRepo, addTier, deleteRepo, deleteTier, fetchTiers, updateTier, updateRepo } from '../../api';
 import TierModal from '../TierModal';
 import RepositoryDetails from '../RepoDetails';
 import { DangerButton, PrimaryButton } from '../Button'
@@ -135,6 +135,18 @@ const TierDetails = () => {
       });
     }
   });
+  const { mutate: updateRepoMutation, isLoading: isUpdatingRepo } = useMutation(updateRepo, {
+    onSuccess:() => {
+      client.invalidateQueries('tiers');
+      setIsRepoModalOpen(false);
+    },
+    onError: () => {
+      toast.addToast('Could not update the repo, please try again!', {
+        appearance: 'error',
+        autoDismiss: true
+      });
+    }
+  });
 
   return (
     <TierContainer>
@@ -157,6 +169,7 @@ const TierDetails = () => {
                   <div>
                     <PrimaryButton size="lg" onClick={() => {
                       selectedTier.current = tier;
+                      selectedRepo.current = null;
                       setIsRepoModalOpen(true);
                     }}>Add Repo</PrimaryButton>
                     <PrimaryButton size="lg" onClick={() => {
@@ -179,11 +192,20 @@ const TierDetails = () => {
                 {tier.repositories && tier.repositories.length > 0 && <TierRepoTitle>List of Repos and details:</TierRepoTitle>}
                 {
                   tier.repositories.map(repo => (
-                    <RepositoryDetails key={repo.id} repo={repo} onRepoDelete={(repo) => {
-                      selectedTier.current = tier;
-                      selectedRepo.current = repo;
-                      setIsDeleteRepoConfirnModalOpen(true);
-                    }}/>
+                    <RepositoryDetails
+                      key={repo.id}
+                      repo={repo}
+                      onRepoDelete={(repo) => {
+                        selectedTier.current = tier;
+                        selectedRepo.current = repo;
+                        setIsDeleteRepoConfirnModalOpen(true);
+                      }}
+                      onRepoEdit={(repo) => {
+                        selectedTier.current = tier;
+                        selectedRepo.current = repo;
+                        setIsRepoModalOpen(true);
+                      }}
+                    />
                   ))
                 }
               </TierItem>
@@ -209,15 +231,25 @@ const TierDetails = () => {
       />
       <RepoModal
         isOpen={isRepoModalOpen}
-        isSubmitting={isAddingRepo}
+        isSubmitting={isAddingRepo || isUpdatingRepo}
         close={() => setIsRepoModalOpen(false)}
         onSubmit={(data) => {
-          addRepoMutation({
-            tierId: selectedTier.current.id,
-            ownerOrOrg: user.sub,
-            ...data
-          });
+          if (selectedRepo.current) {
+            updateRepoMutation({
+              tierId: selectedTier.current.id,
+              ownerOrOrg: user.sub,
+              ...data,
+              name: selectedRepo.current.name
+            });
+          } else {
+            addRepoMutation({
+              tierId: selectedTier.current.id,
+              ownerOrOrg: user.sub,
+              ...data
+            });
+          }
         }}
+        repo={selectedRepo.current}
       />
       <ConfirmModal
         heading="Are you sure to delete the tier?"
