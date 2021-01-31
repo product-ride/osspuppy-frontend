@@ -13,10 +13,6 @@ import {
   TextAreaField
 } from '../Form';
 
-const ActionButton = styled(PrimaryButton)`
-  .h-10
-`;
-
 const TierModal = ({ close, onSubmit, isSubmitting, isOpen }) => {
   const { register, handleSubmit, errors } = useForm();
   const onKeyPress = (evt) => {
@@ -46,7 +42,7 @@ const TierModal = ({ close, onSubmit, isSubmitting, isOpen }) => {
           </FullInputContainer>
         </FieldContainer>
         <FieldContainer>
-          <ActionButton isLoading={isSubmitting} loadingText="Submitting..." type="submit">Submit</ActionButton>
+          <PrimaryButton size="lg" isLoading={isSubmitting} loadingText="Submitting..." type="submit">Submit</PrimaryButton>
         </FieldContainer>
       </FormContainer>
     </Modal>

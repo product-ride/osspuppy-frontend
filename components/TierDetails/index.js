@@ -2,11 +2,12 @@ import { useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import styled from "styled-components";
 import { addTier, deleteTier, fetchTiers } from '../../api';
-import AddTierModal from '../AddTierModal/index';
+import TierModal from '../TierModal';
 import CollapsibleList from '../CollapsibleList';
 import { DangerButton, PrimaryButton } from '../Button'
 import { useToasts } from 'react-toast-notifications';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
+import ConfirmModal from '../ConfirmModal';
 
 const TierContainer = styled.div`
   .px-4;
@@ -32,14 +33,6 @@ const TitleContainer = styled.div`
 const Title = styled.h3`
   .text-2xl;
   .mt-0;
-`;
-
-const ActionButton = styled(PrimaryButton)`
-  .h-10;
-`;
-
-const DeleteButton = styled(DangerButton)`
-  .h-10;
 `;
 
 const TierItem = styled.div`
@@ -71,6 +64,7 @@ const TierRow = styled.div`
 
 const TierDetails = () => {
   const [isTierModalOpen, setIsTierModalOpen] = useState(false);
+  const [isDeleteConfirmModalOpen, setIsDeleteConfirnModalOpen] = useState(false);
   const client = useQueryClient();
   const toast = useToasts();
   const { data, isLoading, isSuccess: isTierLoaded } = useQuery('tiers', fetchTiers);
@@ -102,7 +96,7 @@ const TierDetails = () => {
       <TierList>
         <TitleContainer>
           <Title>Tier Details</Title>
-          <ActionButton onClick={() => setIsTierModalOpen(true)}>Add Tier</ActionButton>
+          <PrimaryButton size="lg" onClick={() => setIsTierModalOpen(true)}>Add Tier</PrimaryButton>
         </TitleContainer>
         {isLoading && <div>Loading...</div>}
         {
@@ -113,12 +107,15 @@ const TierDetails = () => {
                   <TierTitle>{tier.minAmount}$ a month</TierTitle>
                   <TierLabel>{tier.title}</TierLabel>
                   <div>
-                    <ActionButton>
+                    <PrimaryButton size="lg">
                       <FaPencilAlt />
-                    </ActionButton>
-                    <DeleteButton>
-                      <FaTrash onClick={() => deleteTierMutation(tier.id)} />
-                    </DeleteButton>
+                    </PrimaryButton>
+                    <DangerButton size="lg" onClick={() => {
+                        selectedTier.current = tier;
+                        setIsDeleteConfirnModalOpen(true);
+                      }}>
+                      <FaTrash />
+                    </DangerButton>
                   </div>
                 </TierRow>
                 <TierDesc>
@@ -135,11 +132,17 @@ const TierDetails = () => {
           )
         }
       </TierList>
-      <AddTierModal 
+      <TierModal 
         isSubmitting={isAddingTier}
         onSubmit={(data) => addTierMutation(data)}
         close={() => setIsTierModalOpen(false)}
         isOpen={isTierModalOpen}
+      />
+      <ConfirmModal
+        heading="Are you sure to delete the tier?"
+        isOpen={isDeleteConfirmModalOpen}
+        close={() => setIsDeleteConfirnModalOpen(false)}
+        onYes={() => deleteTierMutation(selectedTier.current.id)}
       />
     </TierContainer>
   );

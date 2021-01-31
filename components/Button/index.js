@@ -11,6 +11,7 @@ import styled from "styled-components";
   .rounded;
   cursor: pointer;
   outline: none;
+  ${prop => prop.size === 'lg'? '.h-10': ''}
 `;
 
 export const Button = ({ isLoading, loadingText, children, ...rest }) => (
