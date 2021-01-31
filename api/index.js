@@ -34,6 +34,13 @@ export function addTier(data) {
   });
 }
 
+export function updateTier({ id, ...data }) {
+  return authFetch(`/tiers/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(data)
+  });
+}
+
 export function deleteTier(id) {
   return authFetch(`/tiers/${id}`, {
     method: 'DELETE'

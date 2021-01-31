@@ -12,9 +12,19 @@ import {
   Label,
   TextAreaField
 } from '../Form';
+import { useEffect } from 'react';
 
-const TierModal = ({ close, onSubmit, isSubmitting, isOpen }) => {
-  const { register, handleSubmit, errors } = useForm();
+const TierModal = ({ close, onSubmit, isSubmitting, isOpen, tier}) => {
+  const { register, handleSubmit, errors, setValue } = useForm();
+ 
+  useEffect(() => {
+    if (tier) {
+      setValue('minAmount', tier.minAmount);
+      setValue('title', tier.title);
+      setValue('description', tier.description);
+    }
+  }, [tier]);
+
   const onKeyPress = (evt) => {
     if (!/^[0-9]+$/.test(evt.key)) evt.preventDefault()
   }
