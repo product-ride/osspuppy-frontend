@@ -4,7 +4,6 @@ import styled from "styled-components";
   .border-0;
   .px-4;
   .py-2;
-  .ml-4;
   .text-white;
   .text-xs;
   .lg: text-sm;

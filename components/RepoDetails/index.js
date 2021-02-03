@@ -46,6 +46,9 @@ const ListText = styled.div`
 
 const ActionsContainer = styled.div`
   margin-left: auto;
+  & > button + button {
+    margin-left: 8px;
+  }
 `;
 
 const IconConteiner = styled.div`

@@ -64,6 +64,12 @@ const TierRow = styled.div`
   .items-center;
 `;
 
+const ActionsContainer = styled.div`
+  & > button + button {
+    margin-left: 8px;
+  }
+`;
+
 const TierDetails = ({ tiers, showActionItems }) => {
   const [isTierModalOpen, setIsTierModalOpen] = useState(false);
   const [isRepoModalOpen, setIsRepoModalOpen] = useState(false);
@@ -175,7 +181,7 @@ const TierDetails = ({ tiers, showActionItems }) => {
                   <TierLabel>{tier.title}</TierLabel>
                   {
                     showActionItems && (
-                      <div>
+                      <ActionsContainer>
                         <PrimaryButton size="lg" onClick={() => {
                           selectedTier.current = tier;
                           selectedRepo.current = null;
@@ -193,7 +199,7 @@ const TierDetails = ({ tiers, showActionItems }) => {
                           }}>
                           <FaTrash />
                         </DangerButton>
-                      </div>
+                      </ActionsContainer>
                     )
                   }
                 </TierRow>

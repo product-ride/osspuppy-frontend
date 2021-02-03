@@ -3,6 +3,8 @@ import { useAuth } from '../../hooks/auth';
 import { FaRegClipboard } from 'react-icons/fa';
 import Clipboard from 'react-clipboard.js';
 import { useToasts } from 'react-toast-notifications';
+import { PrimaryButton } from '../Button';
+
 
 const ProfileDetailsContainer = styled.div`
   .px-4;
@@ -44,12 +46,12 @@ const ProfileBio = styled.div`
 `;
 
 const BioItems = styled.span`
-  .mr-8;
+  .mr-4;
   .text-sm;
 `;
 
 const BioItemsContainer = styled.div`
-  .mt-4;
+  .mt-2;
 `;
 
 const Title = styled.h3`
@@ -96,9 +98,18 @@ const ProfileDetails = ({ profileDetails }) => {
         </ProfileImage>
         <ProfileBio>
           <Title>{profileDetails.name}</Title>
-          
+          {profileDetails.bio && <p>{profileDetails.bio}</p>}
           <BioItemsContainer>
-            {/* <BioItems>{user.email}</BioItems> */}
+            <BioItems suppressHydrationWarning={true}>
+              {isCurrentUserProfile && user.email}
+              {!isCurrentUserProfile && (
+                <PrimaryButton onClick={() => {
+                  window.open(`https://github.com/sponsors/${profileDetails.username}`);
+                }}>
+                  Sponsor
+                </PrimaryButton>
+              )}
+            </BioItems>
           </BioItemsContainer>
         </ProfileBio>
       </ProfileDetailsContainer>
