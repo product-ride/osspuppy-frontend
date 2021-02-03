@@ -35,7 +35,7 @@ export function getJwtToken() {
 }
 
 export function getGHRedirectUrl() {
-  const scope = ['repo', 'read:name'].join(',');
+  const scope = ['repo', 'read:user'].join(',');
   const redirectURI = `https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/auth/github`;
   const clientId = process.env.NEXT_PUBLIC_GH_CLIENT_ID;
   const ghURL = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirectURI=${redirectURI}&scope=${scope}`;
