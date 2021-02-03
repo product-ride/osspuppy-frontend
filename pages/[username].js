@@ -14,7 +14,7 @@ export default function Profile({ profileDetails = { tiers: [] }, err }) {
         profileDetails && (
           <>
             <ProfileDetails profileDetails={profileDetails} />
-            <TierDetails tiers={profileDetails.tiers} showActionItems={isCurrentUserProfile} />
+            <TierDetails tiers={profileDetails.tiers} isCurrentUserProfile={isCurrentUserProfile} />
           </>
         )
       }

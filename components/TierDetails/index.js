@@ -70,7 +70,7 @@ const ActionsContainer = styled.div`
   }
 `;
 
-const TierDetails = ({ tiers, showActionItems }) => {
+const TierDetails = ({ tiers, isCurrentUserProfile }) => {
   const [isTierModalOpen, setIsTierModalOpen] = useState(false);
   const [isRepoModalOpen, setIsRepoModalOpen] = useState(false);
   const [isDeleteTierConfirmModalOpen, setIsDeleteTierConfirnModalOpen] = useState(false);
@@ -79,8 +79,7 @@ const TierDetails = ({ tiers, showActionItems }) => {
   const toast = useToasts();
   const selectedTier = useRef(null);
   const selectedRepo = useRef(null);
-  const { isLoggedIn } = useAuth();
-  const { data, isLoading, isSuccess: isTierLoaded } = useQuery('tiers', fetchTiers, { initialData: { tiers }, enabled: !!isLoggedIn });
+  const { data, isLoading, isSuccess: isTierLoaded } = useQuery('tiers', fetchTiers, { initialData: { tiers }, enabled: !!isCurrentUserProfile });
   const router = useRouter();
   const { username } = router.query;
   const { mutate: addTierMutation, isLoading: isAddingTier } = useMutation(addTier, {
@@ -163,7 +162,7 @@ const TierDetails = ({ tiers, showActionItems }) => {
         <TitleContainer suppressHydrationWarning={true}>
           <Title>Tier Details</Title>
           {
-            showActionItems && (
+            isCurrentUserProfile && (
               <PrimaryButton size="lg" onClick={() => {
                 setIsTierModalOpen(true);
                 selectedTier.current = null;
@@ -179,29 +178,31 @@ const TierDetails = ({ tiers, showActionItems }) => {
                 <TierRow>
                   <TierTitle>{tier.minAmount}$ a month</TierTitle>
                   <TierLabel>{tier.title}</TierLabel>
-                  {
-                    showActionItems && (
-                      <ActionsContainer>
-                        <PrimaryButton size="lg" onClick={() => {
-                          selectedTier.current = tier;
-                          selectedRepo.current = null;
-                          setIsRepoModalOpen(true);
-                        }}>Add Repo</PrimaryButton>
-                        <PrimaryButton size="lg" onClick={() => {
-                          selectedTier.current = tier;
-                          setIsTierModalOpen(true);
-                        }}>
-                          <FaPencilAlt />
-                        </PrimaryButton>
-                        <DangerButton size="lg" onClick={() => {
-                            selectedTier.current = tier;
-                            setIsDeleteTierConfirnModalOpen(true);
-                          }}>
-                          <FaTrash />
-                        </DangerButton>
-                      </ActionsContainer>
-                    )
-                  }
+                  <ActionsContainer>
+                    {
+                      isCurrentUserProfile && (
+                          <>
+                            <PrimaryButton size="lg" onClick={() => {
+                              selectedTier.current = tier;
+                              selectedRepo.current = null;
+                              setIsRepoModalOpen(true);
+                            }}>Add Repo</PrimaryButton>
+                            <PrimaryButton size="lg" onClick={() => {
+                              selectedTier.current = tier;
+                              setIsTierModalOpen(true);
+                            }}>
+                              <FaPencilAlt />
+                            </PrimaryButton>
+                            <DangerButton size="lg" onClick={() => {
+                                selectedTier.current = tier;
+                                setIsDeleteTierConfirnModalOpen(true);
+                              }}>
+                              <FaTrash />
+                            </DangerButton>
+                          </>
+                      )
+                    }
+                  </ActionsContainer>
                 </TierRow>
                 <TierDesc>
                   {tier.description}
@@ -222,7 +223,7 @@ const TierDetails = ({ tiers, showActionItems }) => {
                         selectedRepo.current = repo;
                         setIsRepoModalOpen(true);
                       }}
-                      showActionItems={showActionItems}
+                      isCurrentUserProfile={isCurrentUserProfile}
                     />
                   ))
                 }

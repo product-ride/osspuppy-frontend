@@ -55,7 +55,7 @@ const IconConteiner = styled.div`
   margin-left: 20px;
 `;
 
-const RepositoryDetails = ({ repo, onRepoDelete, onRepoEdit, showActionItems }) => {
+const RepositoryDetails = ({ repo, onRepoDelete, onRepoEdit, isCurrentUserProfile }) => {
   const [active, setActive] = useState(false);
   const contentRef = useRef(null);
   const router = useRouter();
@@ -71,7 +71,7 @@ const RepositoryDetails = ({ repo, onRepoDelete, onRepoEdit, showActionItems }) 
         </ButtonTitle>
         <ActionsContainer suppressHydrationWarning={true}>
           {
-            showActionItems && (
+            isCurrentUserProfile && (
               <>
                 <PrimaryButton size="lg" onClick={(evt) => {
                   evt.stopPropagation();
