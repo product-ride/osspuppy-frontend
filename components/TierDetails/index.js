@@ -9,6 +9,7 @@ import { useToasts } from 'react-toast-notifications';
 import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 import ConfirmModal from '../ConfirmModal';
 import RepoModal from '../RepoModal';
+import { useRouter } from 'next/router';
 import { useAuth } from '../../hooks/auth';
 
 const TierContainer = styled.div`
@@ -63,7 +64,7 @@ const TierRow = styled.div`
   .items-center;
 `;
 
-const TierDetails = () => {
+const TierDetails = ({ tiers }) => {
   const [isTierModalOpen, setIsTierModalOpen] = useState(false);
   const [isRepoModalOpen, setIsRepoModalOpen] = useState(false);
   const [isDeleteTierConfirmModalOpen, setIsDeleteTierConfirnModalOpen] = useState(false);
@@ -72,8 +73,10 @@ const TierDetails = () => {
   const toast = useToasts();
   const selectedTier = useRef(null);
   const selectedRepo = useRef(null);
-  const { data, isLoading, isSuccess: isTierLoaded } = useQuery('tiers', fetchTiers);
-  const { user } = useAuth();
+  const { isLoggedIn } = useAuth();
+  const { data, isLoading, isSuccess: isTierLoaded } = useQuery('tiers', fetchTiers, { initialData: { tiers }, enabled: !!isLoggedIn });
+  const router = useRouter();
+  const { username } = router.query;
   const { mutate: addTierMutation, isLoading: isAddingTier } = useMutation(addTier, {
     onSuccess: () => {
       client.invalidateQueries('tiers');
@@ -151,12 +154,16 @@ const TierDetails = () => {
   return (
     <TierContainer>
       <TierList>
-        <TitleContainer>
+        <TitleContainer suppressHydrationWarning={true}>
           <Title>Tier Details</Title>
-          <PrimaryButton size="lg" onClick={() => {
-            setIsTierModalOpen(true);
-            selectedTier.current = null;
-          }}>Add Tier</PrimaryButton>
+          {
+            isLoggedIn && (
+              <PrimaryButton size="lg" onClick={() => {
+                setIsTierModalOpen(true);
+                selectedTier.current = null;
+              }}>Add Tier</PrimaryButton>
+            )
+          }
         </TitleContainer>
         {isLoading && <div>Loading...</div>}
         {
@@ -166,25 +173,29 @@ const TierDetails = () => {
                 <TierRow>
                   <TierTitle>{tier.minAmount}$ a month</TierTitle>
                   <TierLabel>{tier.title}</TierLabel>
-                  <div>
-                    <PrimaryButton size="lg" onClick={() => {
-                      selectedTier.current = tier;
-                      selectedRepo.current = null;
-                      setIsRepoModalOpen(true);
-                    }}>Add Repo</PrimaryButton>
-                    <PrimaryButton size="lg" onClick={() => {
-                      selectedTier.current = tier;
-                      setIsTierModalOpen(true);
-                    }}>
-                      <FaPencilAlt />
-                    </PrimaryButton>
-                    <DangerButton size="lg" onClick={() => {
-                        selectedTier.current = tier;
-                        setIsDeleteTierConfirnModalOpen(true);
-                      }}>
-                      <FaTrash />
-                    </DangerButton>
-                  </div>
+                  {
+                    isLoggedIn && (
+                      <div>
+                        <PrimaryButton size="lg" onClick={() => {
+                          selectedTier.current = tier;
+                          selectedRepo.current = null;
+                          setIsRepoModalOpen(true);
+                        }}>Add Repo</PrimaryButton>
+                        <PrimaryButton size="lg" onClick={() => {
+                          selectedTier.current = tier;
+                          setIsTierModalOpen(true);
+                        }}>
+                          <FaPencilAlt />
+                        </PrimaryButton>
+                        <DangerButton size="lg" onClick={() => {
+                            selectedTier.current = tier;
+                            setIsDeleteTierConfirnModalOpen(true);
+                          }}>
+                          <FaTrash />
+                        </DangerButton>
+                      </div>
+                    )
+                  }
                 </TierRow>
                 <TierDesc>
                   {tier.description}
@@ -237,14 +248,14 @@ const TierDetails = () => {
           if (selectedRepo.current) {
             updateRepoMutation({
               tierId: selectedTier.current.id,
-              ownerOrOrg: user.sub,
+              ownerOrOrg: username,
               ...data,
               name: selectedRepo.current.name
             });
           } else {
             addRepoMutation({
               tierId: selectedTier.current.id,
-              ownerOrOrg: user.sub,
+              ownerOrOrg: username,
               ...data
             });
           }
@@ -263,7 +274,7 @@ const TierDetails = () => {
         close={() => setIsDeleteRepoConfirnModalOpen(false)}
         onYes={() => deleteRepoMutation({
           name: selectedRepo.current.name,
-          ownerOrOrg: user.sub,
+          ownerOrOrg: username,
           tierId: selectedTier.current.id
         })}
       />

@@ -26,6 +26,10 @@ export function getLoggedInUser() {
   }
 }
 
+export function getUserFromToken(token) {
+  return jwtDecode(token);
+}
+
 export function setJwtToken(token) {
   localStorage.setItem(TOKEN_KEY, token);
 }

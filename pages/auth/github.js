@@ -1,16 +1,20 @@
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
 import { useAuth } from '../../hooks/auth';
+import { getUserFromToken } from '../../utils';
 
 export default function GitHubRedirect() {
   const router = useRouter();
-  const { setToken } = useAuth();
+  const { setToken, user } = useAuth();
 
   useEffect(() => {
-    if (router.query.token) {
-      setToken(router.query.token);
+    const token = router.query.token;
+
+    if (token) {
+      setToken(token);
+      const user = getUserFromToken(token);
       
-      router.push("/profile");
+      router.push(`/${user.sub}`);
     }
   }, [router]);
 

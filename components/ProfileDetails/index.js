@@ -80,53 +80,57 @@ const ClipboardBtn = ({ text, onSuccess }) => {
   )
 }
 
-const ProfileDetails = () => {
+const ProfileDetails = ({ profileDetails }) => {
   const { user } = useAuth();
   const { addToast } = useToasts();
-  
+
   return (
-    user && (
-      <>
-        <ProfileDetailsContainer>
-          <ProfileImage>
-            <img
-              src={user.avatar}
-              alt="Profile Image"
-            />
-          </ProfileImage>
-          <ProfileBio>
-            <Title>{user.name}</Title>
-            Your GitHub Sponsors profile was approved and is now public! Now
-            others can sponsor you from your user profile and user hovercard.
-            <BioItemsContainer>
-              <BioItems>{user.email}</BioItems>
-            </BioItemsContainer>
-          </ProfileBio>
-        </ProfileDetailsContainer>
-        <SecretsContainer>
-          <Secret>
-            <Title>Webhook Endpoint:</Title>
-            {`https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/webhooks/sponsor`}
-            <ClipboardBtn text={`https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/webhooks/sponsor`} onSuccess={() => {
-               addToast('Copied endpoint to clipboard', {
-                appearance: 'info',
-                autoDismiss: true
-              });
-            }} />
-          </Secret>
-          <Secret>
-            <Title>Webhook Secret:</Title>
-            {user.sponsorWebhookSecret}
-            <ClipboardBtn text={user.sponsorWebhookSecret} onSuccess={() => {
-               addToast('Copied secret to clipboard', {
-                appearance: 'info',
-                autoDismiss: true
-              });
-            }} />
-          </Secret>
-        </SecretsContainer>
-      </>
-    )
+    <>
+      <ProfileDetailsContainer>
+        <ProfileImage>
+          <img
+            src={profileDetails.avatar}
+            alt="Profile Image"
+          />
+        </ProfileImage>
+        <ProfileBio>
+          <Title>{profileDetails.name}</Title>
+          Your GitHub Sponsors profile was approved and is now public! Now
+          others can sponsor you from your user profile and user hovercard.
+          <BioItemsContainer>
+            {/* <BioItems>{user.email}</BioItems> */}
+          </BioItemsContainer>
+        </ProfileBio>
+      </ProfileDetailsContainer>
+      <div suppressHydrationWarning={true}>
+        {
+          user && (
+            <SecretsContainer>
+              <Secret>
+                <Title>Webhook Endpoint:</Title>
+                {`https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/webhooks/sponsor`}
+                <ClipboardBtn text={`https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/webhooks/sponsor`} onSuccess={() => {
+                   addToast('Copied endpoint to clipboard', {
+                    appearance: 'info',
+                    autoDismiss: true
+                  });
+                }} />
+              </Secret>
+              <Secret>
+                <Title>Webhook Secret:</Title>
+                {user.sponsorWebhookSecret}
+                <ClipboardBtn text={user.sponsorWebhookSecret} onSuccess={() => {
+                   addToast('Copied secret to clipboard', {
+                    appearance: 'info',
+                    autoDismiss: true
+                  });
+                }} />
+              </Secret>
+            </SecretsContainer>
+          )
+        }
+      </div>
+    </>
   );
 };
 

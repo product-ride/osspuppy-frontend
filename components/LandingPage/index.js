@@ -50,7 +50,7 @@ const KnowMore = styled(Button)`
 `
 
 const LandingPage = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const router = useRouter();
   
   return (
@@ -61,7 +61,7 @@ const LandingPage = () => {
       <ButtonContainer>
         <ActionButton suppressHydrationWarning={true} onClick={() => {
             if (isLoggedIn) {
-              router.push('/profile');
+              router.push(`/${user.sub}`);
             } else {
               window.location = getGHRedirectUrl();
             }

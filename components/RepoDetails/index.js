@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import ReactMarkdown from 'react-markdown'
 import { FaPlus, FaMinus, FaPencilAlt, FaTrash } from 'react-icons/fa';
 import { DangerButton, PrimaryButton } from '../Button';
+import { useRouter } from 'next/router';
 import { useAuth } from '../../hooks/auth';
 
 const ListSection = styled.div`
@@ -54,8 +55,10 @@ const IconConteiner = styled.div`
 const RepositoryDetails = ({ repo, onRepoDelete, onRepoEdit }) => {
   const [active, setActive] = useState(false);
   const contentRef = useRef(null);
-  const { user } = useAuth();
-  const title = `${user.sub}/${repo.name}`;
+  const router = useRouter();
+  const { username } = router.query;
+  const title = `${username}/${repo.name}`;
+  const { isLoggedIn } = useAuth();
 
   return (
     <ListSection>
@@ -63,19 +66,25 @@ const RepositoryDetails = ({ repo, onRepoDelete, onRepoEdit }) => {
         <ButtonTitle>
           {title}
         </ButtonTitle>
-        <ActionsContainer>
-          <PrimaryButton size="lg" onClick={(evt) => {
-            evt.stopPropagation();
-            onRepoEdit(repo);
-          }}>
-            <FaPencilAlt />
-          </PrimaryButton>
-          <DangerButton size="lg" onClick={(evt) => {
-            evt.stopPropagation();
-            onRepoDelete(repo);
-          }}>
-            <FaTrash />
-          </DangerButton>
+        <ActionsContainer suppressHydrationWarning={true}>
+          {
+            isLoggedIn && (
+              <>
+                <PrimaryButton size="lg" onClick={(evt) => {
+                  evt.stopPropagation();
+                  onRepoEdit(repo);
+                }}>
+                  <FaPencilAlt />
+                </PrimaryButton>
+                <DangerButton size="lg" onClick={(evt) => {
+                  evt.stopPropagation();
+                  onRepoDelete(repo);
+                }}>
+                  <FaTrash />
+                </DangerButton>
+              </>
+            )
+          }
         </ActionsContainer>
         <IconConteiner>
           {!active && <FaPlus />}

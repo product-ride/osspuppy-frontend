@@ -1,8 +1,14 @@
 import { getJwtToken } from '../utils';
 
-async function fetchWrapper(uri, options = {}) {
+function getAbsoluteURI(uri) {
   const schema = process.env.NODE_ENV === 'production'? 'https://': 'http://';
-  const absoluteURI = `${schema}${process.env.NEXT_PUBLIC_BACKEND_HOST}/api${uri}`;
+  const absoluteURI = `${schema}${process.env.NEXT_PUBLIC_BACKEND_HOST}${uri}`;
+
+  return absoluteURI;
+}
+
+async function fetchWrapper(uri, options = {}) {
+  const absoluteURI = getAbsoluteURI(uri);
 
   const response = await fetch(absoluteURI, {
     ...options,
@@ -24,46 +30,55 @@ async function fetchWrapper(uri, options = {}) {
 }
 
 export function fetchTiers() {
-  return fetchWrapper('/tiers');
+  return fetchWrapper('/api/tiers');
 }
 
 export function addTier(data) {
-  return fetchWrapper('/tiers', {
+  return fetchWrapper('/api/tiers', {
     method: 'POST',
     body: JSON.stringify(data)
   });
 }
 
 export function addRepo({ tierId, ...data }) {
-  return fetchWrapper(`/tiers/${tierId}/repositories`, {
+  return fetchWrapper(`/api/tiers/${tierId}/repositories`, {
     method: 'POST',
     body: JSON.stringify(data)
   });
 }
 
 export function updateRepo({ tierId, ...data }) {
-  return fetchWrapper(`/tiers/${tierId}/repositories`, {
+  return fetchWrapper(`/api/tiers/${tierId}/repositories`, {
     method: 'PATCH',
     body: JSON.stringify(data)
   });
 }
 
 export function updateTier({ id, ...data }) {
-  return fetchWrapper(`/tiers/${id}`, {
+  return fetchWrapper(`/api/tiers/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data)
   });
 }
 
 export function deleteTier(id) {
-  return fetchWrapper(`/tiers/${id}`, {
+  return fetchWrapper(`/api/tiers/${id}`, {
     method: 'DELETE'
   });
 }
 
 export function deleteRepo({ tierId, ownerOrOrg, name }) {
-  return fetchWrapper(`/tiers/${tierId}/repositories`, {
+  return fetchWrapper(`/api/tiers/${tierId}/repositories`, {
     method: 'DELETE',
     body: JSON.stringify({ name, ownerOrOrg })
   });
+}
+
+export async function getProfileDetails(username) {
+  const absoluteURI = getAbsoluteURI(`/profile/${username}`);
+  const response = await fetch(absoluteURI);
+
+  if (!response.ok) throw { statusCode: response.status };
+  
+  return response.json();
 }
