@@ -2,15 +2,19 @@ import { getProfileDetails } from '../api';
 import ProfileDetails from "../components/ProfileDetails";
 import TierDetails from "../components/TierDetails";
 import ErrorPage from 'next/error'
+import { useAuth } from '../hooks/auth';
 
 export default function Profile({ profileDetails = { tiers: [] }, err }) {
+  const { user } = useAuth();
+  const isCurrentUserProfile = user?.sub === profileDetails.username;
+
   return (
     <>
       {
         profileDetails && (
           <>
             <ProfileDetails profileDetails={profileDetails} />
-            <TierDetails tiers={profileDetails.tiers} />
+            <TierDetails tiers={profileDetails.tiers} showActionItems={isCurrentUserProfile} />
           </>
         )
       }

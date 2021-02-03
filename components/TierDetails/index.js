@@ -64,7 +64,7 @@ const TierRow = styled.div`
   .items-center;
 `;
 
-const TierDetails = ({ tiers }) => {
+const TierDetails = ({ tiers, showActionItems }) => {
   const [isTierModalOpen, setIsTierModalOpen] = useState(false);
   const [isRepoModalOpen, setIsRepoModalOpen] = useState(false);
   const [isDeleteTierConfirmModalOpen, setIsDeleteTierConfirnModalOpen] = useState(false);
@@ -157,7 +157,7 @@ const TierDetails = ({ tiers }) => {
         <TitleContainer suppressHydrationWarning={true}>
           <Title>Tier Details</Title>
           {
-            isLoggedIn && (
+            showActionItems && (
               <PrimaryButton size="lg" onClick={() => {
                 setIsTierModalOpen(true);
                 selectedTier.current = null;
@@ -169,12 +169,12 @@ const TierDetails = ({ tiers }) => {
         {
           isTierLoaded && (
             data.tiers.map(tier => (
-              <TierItem key={tier.id}>
+              <TierItem key={tier.id} suppressHydrationWarning={true}>
                 <TierRow>
                   <TierTitle>{tier.minAmount}$ a month</TierTitle>
                   <TierLabel>{tier.title}</TierLabel>
                   {
-                    isLoggedIn && (
+                    showActionItems && (
                       <div>
                         <PrimaryButton size="lg" onClick={() => {
                           selectedTier.current = tier;
@@ -216,6 +216,7 @@ const TierDetails = ({ tiers }) => {
                         selectedRepo.current = repo;
                         setIsRepoModalOpen(true);
                       }}
+                      showActionItems={showActionItems}
                     />
                   ))
                 }

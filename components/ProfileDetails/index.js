@@ -83,6 +83,7 @@ const ClipboardBtn = ({ text, onSuccess }) => {
 const ProfileDetails = ({ profileDetails }) => {
   const { user } = useAuth();
   const { addToast } = useToasts();
+  const isCurrentUserProfile = user?.sub === profileDetails.username;
 
   return (
     <>
@@ -95,8 +96,7 @@ const ProfileDetails = ({ profileDetails }) => {
         </ProfileImage>
         <ProfileBio>
           <Title>{profileDetails.name}</Title>
-          Your GitHub Sponsors profile was approved and is now public! Now
-          others can sponsor you from your user profile and user hovercard.
+          
           <BioItemsContainer>
             {/* <BioItems>{user.email}</BioItems> */}
           </BioItemsContainer>
@@ -104,7 +104,7 @@ const ProfileDetails = ({ profileDetails }) => {
       </ProfileDetailsContainer>
       <div suppressHydrationWarning={true}>
         {
-          user && (
+          isCurrentUserProfile && (
             <SecretsContainer>
               <Secret>
                 <Title>Webhook Endpoint:</Title>

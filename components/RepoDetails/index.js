@@ -52,13 +52,13 @@ const IconConteiner = styled.div`
   margin-left: 20px;
 `;
 
-const RepositoryDetails = ({ repo, onRepoDelete, onRepoEdit }) => {
+const RepositoryDetails = ({ repo, onRepoDelete, onRepoEdit, showActionItems }) => {
   const [active, setActive] = useState(false);
   const contentRef = useRef(null);
   const router = useRouter();
   const { username } = router.query;
   const title = `${username}/${repo.name}`;
-  const { isLoggedIn } = useAuth();
+  const { user } = useAuth();
 
   return (
     <ListSection>
@@ -68,7 +68,7 @@ const RepositoryDetails = ({ repo, onRepoDelete, onRepoEdit }) => {
         </ButtonTitle>
         <ActionsContainer suppressHydrationWarning={true}>
           {
-            isLoggedIn && (
+            showActionItems && (
               <>
                 <PrimaryButton size="lg" onClick={(evt) => {
                   evt.stopPropagation();
