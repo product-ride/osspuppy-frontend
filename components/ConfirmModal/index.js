@@ -4,6 +4,13 @@ import Modal from '../Modal';
 
 const Container = styled.div`
   .py-2;
+  margin-left: 8px;
+  & > button + button {
+    margin-left: 8px;
+  }
+  button {
+    width: 90px;
+  }
 `;
 
 const ConfirmModal = ({ heading, close, onYes, isOpen }) => {

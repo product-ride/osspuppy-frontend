@@ -14,6 +14,10 @@ import {
 } from '../Form';
 import { useEffect } from 'react';
 
+const ActionsContainer = styled.div`
+  .ml-2;
+`;
+
 const TierModal = ({ close, onSubmit, isSubmitting, isOpen, tier}) => {
   const { register, handleSubmit, errors, setValue } = useForm();
   const heading = tier? 'Edit Tier': 'Add Tier';
@@ -52,9 +56,9 @@ const TierModal = ({ close, onSubmit, isSubmitting, isOpen, tier}) => {
             {errors.description && <ErrorField>description is required</ErrorField>}
           </FullInputContainer>
         </FieldContainer>
-        <FieldContainer>
+        <ActionsContainer>
           <PrimaryButton size="lg" isLoading={isSubmitting} loadingText="Submitting..." type="submit">Submit</PrimaryButton>
-        </FieldContainer>
+        </ActionsContainer>
       </FormContainer>
     </Modal>
   );

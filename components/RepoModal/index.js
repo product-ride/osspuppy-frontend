@@ -11,6 +11,11 @@ import {
   TextAreaField
 } from '../Form';
 import Modal from '../Modal';
+import styled from 'styled-components';
+
+const ActionsContainer = styled.div`
+  .ml-2;
+`;
 
 export default function RepoModal({ isOpen, close, isSubmitting, onSubmit, repo }) {
   const { register, handleSubmit, errors, setValue } = useForm();
@@ -40,9 +45,9 @@ export default function RepoModal({ isOpen, close, isSubmitting, onSubmit, repo 
             {errors.description && <ErrorField>repo description is required</ErrorField>}
           </FullInputContainer>
         </FieldContainer>
-        <FieldContainer>
+        <ActionsContainer>
           <PrimaryButton size="lg" isLoading={isSubmitting} loadingText="Submitting..." type="submit">Submit</PrimaryButton>
-        </FieldContainer>
+        </ActionsContainer>
       </FormContainer>
     </Modal>
   )
