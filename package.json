@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "devDependencies": {
+    "babel-plugin-inline-react-svg": "^1.1.2",
     "babel-plugin-styled-components": "^1.12.0",
     "babel-plugin-styled-wind": "^0.0.3"
   },

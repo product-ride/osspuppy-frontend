@@ -4,6 +4,7 @@
     ],
     "plugins": [
         "babel-plugin-styled-wind",
-        "babel-plugin-styled-components"
+        "babel-plugin-styled-components",
+        "inline-react-svg"
     ]
 }

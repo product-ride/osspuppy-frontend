@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useAuth } from '../../hooks/auth';
 import { getGHRedirectUrl } from '../../utils';
 import { Button } from '../Button';
+import LogoSVG from './oss_puppy.svg';
 
 const LandingPageContainer = styled.div`
   .flex;
@@ -55,7 +56,7 @@ const LandingPage = () => {
   
   return (
     <LandingPageContainer>
-      <Image src="/oss_puppy.svg" alt="OSS Puppy" />
+      <LogoSVG />
       <Desc>A OSS tool that helps OSS developers to maintain OSS projects and sponsors</Desc>
       <Desc>Get Started</Desc>
       <ButtonContainer>
