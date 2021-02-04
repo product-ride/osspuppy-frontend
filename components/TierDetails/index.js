@@ -6,11 +6,10 @@ import TierModal from '../TierModal';
 import RepositoryDetails from '../RepoDetails';
 import { DangerButton, PrimaryButton } from '../Button'
 import { useToasts } from 'react-toast-notifications';
-import { FaPencilAlt, FaTrash } from 'react-icons/fa';
+import { FaPencilAlt, FaTrash, FaGrin } from 'react-icons/fa';
 import ConfirmModal from '../ConfirmModal';
 import RepoModal from '../RepoModal';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../hooks/auth';
 
 const TierContainer = styled.div`
   .px-4;
@@ -68,6 +67,12 @@ const ActionsContainer = styled.div`
   & > button + button {
     margin-left: 8px;
   }
+`;
+
+const EmptyStateContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const TierDetails = ({ tiers, isCurrentUserProfile }) => {
@@ -172,6 +177,16 @@ const TierDetails = ({ tiers, isCurrentUserProfile }) => {
         </TitleContainer>
         {isLoading && <div>Loading...</div>}
         {
+          isTierLoaded && data.tiers.length == 0 && (
+            <EmptyStateContainer>
+              <FaGrin size="5em" />
+              <p>
+                No tier available, please crate one.
+              </p>
+            </EmptyStateContainer>
+          )
+        }
+        {
           isTierLoaded && (
             data.tiers.map(tier => (
               <TierItem key={tier.id} suppressHydrationWarning={true}>
@@ -181,25 +196,25 @@ const TierDetails = ({ tiers, isCurrentUserProfile }) => {
                   <ActionsContainer>
                     {
                       isCurrentUserProfile && (
-                          <>
-                            <PrimaryButton size="lg" onClick={() => {
+                        <>
+                          <PrimaryButton size="lg" onClick={() => {
+                            selectedTier.current = tier;
+                            selectedRepo.current = null;
+                            setIsRepoModalOpen(true);
+                          }}>Add Repo</PrimaryButton>
+                          <PrimaryButton size="lg" onClick={() => {
+                            selectedTier.current = tier;
+                            setIsTierModalOpen(true);
+                          }}>
+                            <FaPencilAlt />
+                          </PrimaryButton>
+                          <DangerButton size="lg" onClick={() => {
                               selectedTier.current = tier;
-                              selectedRepo.current = null;
-                              setIsRepoModalOpen(true);
-                            }}>Add Repo</PrimaryButton>
-                            <PrimaryButton size="lg" onClick={() => {
-                              selectedTier.current = tier;
-                              setIsTierModalOpen(true);
+                              setIsDeleteTierConfirnModalOpen(true);
                             }}>
-                              <FaPencilAlt />
-                            </PrimaryButton>
-                            <DangerButton size="lg" onClick={() => {
-                                selectedTier.current = tier;
-                                setIsDeleteTierConfirnModalOpen(true);
-                              }}>
-                              <FaTrash />
-                            </DangerButton>
-                          </>
+                            <FaTrash />
+                          </DangerButton>
+                        </>
                       )
                     }
                   </ActionsContainer>
