@@ -19,6 +19,9 @@ export default function Home({ origin }) {
             url: `${origin}/logo.png`
           }]
         }}
+        twitter={{
+          cardType: 'summary_large_image'
+        }}
       />
       <div>
         <LandingPage />

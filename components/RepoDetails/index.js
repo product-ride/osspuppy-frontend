@@ -61,7 +61,6 @@ const RepositoryDetails = ({ repo, onRepoDelete, onRepoEdit, isCurrentUserProfil
   const router = useRouter();
   const { username } = router.query;
   const title = `${username}/${repo.name}`;
-  const { user } = useAuth();
 
   return (
     <ListSection>
