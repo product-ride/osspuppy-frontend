@@ -12,16 +12,16 @@ export default function Profile({ profileDetails = { tiers: [] }, err }) {
   return (
     <>
       <NextSeo
-          title={`Sponsor ${profileDetails.name}`}
-          description={`Get access to sponsorware from ${profileDetails.name} by sponsoring him on GitHub.`}
-          openGraph={{
-            title: `Sponsor ${profileDetails.name}`,
-            description: `Get access to sponsorware from ${profileDetails.name} by sponsoring him on GitHub.`,
-            images: [{
-              url: profileDetails.avatar
-            }]
-          }}
-        />
+        title={`${profileDetails.name} | OSSPuppy`}
+        description={`Get access to sponsorware from ${profileDetails.name} by sponsoring him on GitHub.`}
+        openGraph={{
+          title: `Sponsor ${profileDetails.name}`,
+          description: `Get access to sponsorware from ${profileDetails.name} by sponsoring him on GitHub.`,
+          images: [{
+            url: profileDetails.avatar
+          }]
+        }}
+      />
       {
         profileDetails && (
           <>
