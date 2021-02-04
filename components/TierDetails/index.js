@@ -181,7 +181,9 @@ const TierDetails = ({ tiers, isCurrentUserProfile }) => {
             <EmptyStateContainer>
               <FaGrin size="5em" />
               <p>
-                No tier available, please crate one.
+                {
+                  isCurrentUserProfile? 'No tiers available, please crate one.': 'No tiers available'
+                }
               </p>
             </EmptyStateContainer>
           )
