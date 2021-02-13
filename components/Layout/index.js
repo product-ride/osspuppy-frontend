@@ -50,6 +50,7 @@ const ActionButton = styled(Button)`
   .border-2;
   .border-black;
   .text-black;
+  .ml-4;
 `;
 
 const Upgrade = styled.button`
@@ -62,8 +63,6 @@ const Upgrade = styled.button`
   .rounded;
   cursor: pointer;
   outline: none;
-  background: #ff0080;
-  .mr-4;
 `;
 
 const Layout = ({ children }) => {
@@ -83,7 +82,7 @@ const Layout = ({ children }) => {
             <Logo src="/puppy.svg" alt="OSS Puppy" />
           </LogoContainer>
         </Link>
-        <MenuItems suppressHydrationWarning={true}>
+        <MenuItems>
           {isLoggedIn && (
             <Upgrade
               onClick={() => {
