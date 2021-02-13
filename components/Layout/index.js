@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useAuth } from "../../hooks/auth";
 import { getGHRedirectUrl } from "../../utils";
 import { Button } from "../Button";
+import Link from 'next/link'
 
 const LayoutContainer = styled.div`
   .max-h-full;
@@ -67,9 +68,11 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header>
-        <LogoContainer>
-          <Logo src="/puppy.svg" alt="OSS Puppy" />
-        </LogoContainer>
+        <Link href="/">
+          <LogoContainer>
+            <Logo src="/puppy.svg" alt="OSS Puppy" />
+          </LogoContainer>
+        </Link>
         <MenuItems suppressHydrationWarning={true}>
           {isLoggedIn && (
             <Upgrade
