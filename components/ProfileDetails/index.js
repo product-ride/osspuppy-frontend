@@ -119,8 +119,8 @@ const ProfileDetails = ({ profileDetails }) => {
             <SecretsContainer>
               <Secret>
                 <Title>Webhook Endpoint:</Title>
-                {`https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/webhooks/sponsor`}
-                <ClipboardBtn text={`https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/webhooks/sponsor`} onSuccess={() => {
+                {`https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/webhooks/sponsor/${profileDetails.username}`}
+                <ClipboardBtn text={`https://${process.env.NEXT_PUBLIC_BACKEND_HOST}/webhooks/sponsor/${profileDetails.username}`} onSuccess={() => {
                    addToast('Copied endpoint to clipboard', {
                     appearance: 'info',
                     autoDismiss: true
