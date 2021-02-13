@@ -72,6 +72,12 @@ const ClipboardContainer = styled.div`
   }
 `;
 
+const Note = styled.div`
+  color: red;
+  font-size: 12px;
+  .mt-4;
+`;
+
 const ClipboardBtn = ({ text, onSuccess }) => {
   return (
     <ClipboardContainer>
@@ -141,6 +147,9 @@ const ProfileDetails = ({ profileDetails }) => {
           )
         }
       </div>
+      <Note>
+        Important: When adding secret, change the Content type to 'application/json'
+      </Note>
     </>
   );
 };
