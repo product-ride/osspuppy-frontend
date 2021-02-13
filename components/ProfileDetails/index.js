@@ -76,6 +76,8 @@ const Note = styled.div`
   color: red;
   font-size: 12px;
   .mt-4;
+  .px-4;
+  .lg: px-32;
 `;
 
 const ClipboardBtn = ({ text, onSuccess }) => {
