@@ -30,6 +30,7 @@ const Header = styled.div`
 
 const Logo = styled.img`
   .h-16;
+  cursor: pointer;
 `;
 
 const LogoContainer = styled.div`
@@ -83,7 +84,7 @@ const Layout = ({ children }) => {
           </LogoContainer>
         </Link>
         <MenuItems suppressHydrationWarning={true}>
-          {!isLoggedIn && (
+          {isLoggedIn && (
             <Upgrade
               onClick={() => {
                 router.push(`/${user.sub}`);
