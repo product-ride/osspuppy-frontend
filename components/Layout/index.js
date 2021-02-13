@@ -51,7 +51,16 @@ const ActionButton = styled(Button)`
   .text-black;
 `;
 
-const Upgrade = styled(Button)`
+const Upgrade = styled.button`
+  .border-0;
+  .px-4;
+  .py-2;
+  .text-white;
+  .text-xs;
+  .lg: text-sm;
+  .rounded;
+  cursor: pointer;
+  outline: none;
   background: #ff0080;
   .mr-4;
 `;
@@ -74,7 +83,7 @@ const Layout = ({ children }) => {
           </LogoContainer>
         </Link>
         <MenuItems suppressHydrationWarning={true}>
-          {isLoggedIn && (
+          {!isLoggedIn && (
             <Upgrade
               onClick={() => {
                 router.push(`/${user.sub}`);
