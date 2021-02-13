@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import { useRouter } from "next/router";
-import { useAuth } from '../../hooks/auth';
-import { getGHRedirectUrl } from '../../utils';
-import { Button } from '../Button';
+import { useAuth } from "../../hooks/auth";
+import { getGHRedirectUrl } from "../../utils";
+import { Button } from "../Button";
 
 const LayoutContainer = styled.div`
   .max-h-full;
@@ -24,7 +24,7 @@ const Header = styled.div`
   .text-sm;
   .bg-white;
   box-shadow: 0px -1px 0px 0px inset rgba(0,0,0,0.1);
-  z-index: 9999;
+  z-index: 9;
 `;
 
 const Logo = styled.img`
@@ -50,30 +50,45 @@ const ActionButton = styled(Button)`
   .text-black;
 `;
 
+const Upgrade = styled(Button)`
+  background: #ff0080;
+  .mr-4;
+`;
+
 const Layout = ({ children }) => {
   const router = useRouter();
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout, user } = useAuth();
   const logoutUser = () => {
     logout();
 
     router.push("/");
   };
-  
+
   return (
     <>
       <Header>
         <LogoContainer>
           <Logo src="/puppy.svg" alt="OSS Puppy" />
         </LogoContainer>
-        <MenuItems>
-        <ActionButton suppressHydrationWarning={true} onClick={() => {
-          if (isLoggedIn) logoutUser();
-          else window.location = getGHRedirectUrl();
-        }}>
-        {
-          isLoggedIn? 'Logout': 'Sign in with Github'
-        }
-        </ActionButton>
+        <MenuItems suppressHydrationWarning={true}>
+          {isLoggedIn && (
+            <Upgrade
+              onClick={() => {
+                router.push(`/${user.sub}`);
+              }}
+            >
+              My Profile
+            </Upgrade>
+          )}
+          <ActionButton
+            suppressHydrationWarning={true}
+            onClick={() => {
+              if (isLoggedIn) logoutUser();
+              else window.location = getGHRedirectUrl();
+            }}
+          >
+            {isLoggedIn ? "Logout" : "Sign in with Github"}
+          </ActionButton>
         </MenuItems>
       </Header>
       <LayoutContainer>{children}</LayoutContainer>

@@ -9,7 +9,7 @@ const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastProvider placement="bottom-right" autoDismissTimeout={2000}>
+      <ToastProvider placement="top-right" autoDismissTimeout={2000}>
         <AuthProvider>
             <Layout {...pageProps}><Component {...pageProps} /></Layout>
         </AuthProvider>
