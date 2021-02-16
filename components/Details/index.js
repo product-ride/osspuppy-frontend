@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FaCheck } from 'react-icons/fa';
+import { FaCheck } from "react-icons/fa";
 
 const DetailsContainer = styled.div`
   .w-full;
@@ -108,7 +108,7 @@ const CheckedIcon = styled(FaCheck)`
   color: green;
 `;
 
-const Feature = ({children}) => (
+const Feature = ({ children }) => (
   <FeatureItem>
     <CheckedIcon />
     <FeatureText>{children}</FeatureText>
@@ -121,7 +121,7 @@ const Details = () => {
       <DetailsContainer>
         <Description>
           OSSPuppy is a tool for Open source developers and maintainers who wish
-          to automate tasks for their sponsors. They the Sponsorship tiers and
+          to automate tasks for their sponsors. Set the Sponsorship tiers and
           the corresponding benefits and sit back and relax. We maintain
           everything else
         </Description>
@@ -140,9 +140,9 @@ const Details = () => {
             <span>Standard Plan</span> <div>Forever free</div>
           </StandardBox>
           <FeatureList>
-            <Feature>Personlized Profile</Feature>
+            <Feature>Personalized Profile</Feature>
             <Feature>Create Sponsorship Tiers</Feature>
-            <Feature>Assignn repo level access based on tiers</Feature>
+            <Feature>Assign repo level access based on tiers</Feature>
           </FeatureList>
         </StandardContainer>
         <ProContainer>
@@ -151,7 +151,6 @@ const Details = () => {
           </ProBox>
           <FeatureList>
             <Feature>Everything in standard</Feature>
-            <Feature>Assignn repo level access based on tiers</Feature>
             <Feature>Auto-label PRs and Issues by Tiers</Feature>
             <Feature>Dashboard with Analytics</Feature>
             <Feature>Email notifications and Summaries</Feature>
