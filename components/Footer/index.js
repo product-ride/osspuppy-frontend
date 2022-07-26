@@ -26,7 +26,7 @@ const Footer = () => {
             <div>
                 <PRLogo src="/pr_logo.svg" alt="Product Ride"/>
                 <P>Made in love on OSS from <a href="https://productride.com/" target="_blank">Product Ride</a>. 
-                 Product Ride is a OSS first organization, aiming to trasnform the digital space</P>
+                 Product Ride is a OSS first organization, aiming to transform the digital space</P>
             </div>
             <div>
                 Find all our OSS projects <a href="https://github.com/product-ride" target="_blank">here</a>
